@@ -104,13 +104,19 @@ foreach ($category in $categories) {
         $listBox.Items.Add($script.Name) | Out-Null
     }
 
+    # Capture the current $categoryScripts in a script block for the button
     $runButton = New-Object System.Windows.Forms.Button
     $runButton.Text = "Run Selected"
     $runButton.Dock = "Bottom"
 
+    # Define the click event with the current context
     $runButton.Add_Click({
+        param($sender, $e)
         if ($listBox.SelectedIndex -ge 0) {
-            $selectedScript = $categoryScripts[$listBox.SelectedIndex]
+            # Retrieve the selected script based on selected index
+            $selectedIndex = $listBox.SelectedIndex
+            # Use the captured $categoryScripts
+            $selectedScript = $categoryScripts[$selectedIndex]
             Run-Script $selectedScript
         }
         else {
@@ -122,9 +128,3 @@ foreach ($category in $categories) {
     $tabPage.Controls.Add($runButton)
     $tabControl.TabPages.Add($tabPage)
 }
-
-$form.Controls.Add($tabControl)
-$form.Topmost = $true
-$form.Add_Shown({ $form.Activate() })
-
-[void]$form.ShowDialog()
