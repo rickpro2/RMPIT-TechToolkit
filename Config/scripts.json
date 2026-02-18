@@ -1,0 +1,32 @@
+[
+  {
+    "Category": "Imaging",
+    "Name": "Install WinHance",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Imaging/Install-WinHance.ps1",
+    "RequiresAdmin": true
+  },
+  {
+    "Category": "Imaging",
+    "Name": "Setup Device",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Imaging/Setup-Device.ps1",
+    "RequiresAdmin": true
+  },
+  {
+    "Category": "Repair",
+    "Name": "Office Repair",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Repair/Office-Repair.ps1",
+    "RequiresAdmin": false
+  },
+  {
+    "Category": "Security",
+    "Name": "Enable BitLocker",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Security/Enable-BitLocker.ps1",
+    "RequiresAdmin": true
+  },
+  {
+    "Category": "Cleanup",
+    "Name": "Remove Bloatware",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Cleanup/Remove-Bloat.ps1",
+    "RequiresAdmin": true
+  }
+]

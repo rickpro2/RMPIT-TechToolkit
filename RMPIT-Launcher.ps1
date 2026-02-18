@@ -1,0 +1,130 @@
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+$BaseCachePath = "C:\ProgramData\RMPIT-TechToolkit"
+if (!(Test-Path $BaseCachePath)) {
+    New-Item -Path $BaseCachePath -ItemType Directory | Out-Null
+}
+
+# RAW path to scripts.json
+$ScriptListUrl = "https://raw.githubusercontent.com/YOURNAME/RMPIT-TechToolkit/main/Config/scripts.json"
+
+try {
+    $jsonData = Invoke-WebRequest -Uri $ScriptListUrl -UseBasicParsing
+    $Scripts = $jsonData.Content | ConvertFrom-Json
+}
+catch {
+    [System.Windows.Forms.MessageBox]::Show("Failed to load script list.","Error")
+    return
+}
+
+function Get-ScriptVersionFromContent {
+    param ($Content)
+    if ($Content -match "#\s*Version:\s*([0-9\.]+)") {
+        return $matches[1]
+    }
+    return "0.0.0"
+}
+
+function Get-LocalVersion {
+    param ($Name)
+    $versionFile = Join-Path $BaseCachePath "$Name.version"
+    if (Test-Path $versionFile) {
+        return Get-Content $versionFile
+    }
+    return "0.0.0"
+}
+
+function Set-LocalVersion {
+    param ($Name,$Version)
+    Set-Content (Join-Path $BaseCachePath "$Name.version") $Version
+}
+
+function Test-Admin {
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal($identity)
+    return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+function Run-Script {
+    param ($ScriptObject)
+
+    try {
+        $response = Invoke-WebRequest -Uri $ScriptObject.Url -UseBasicParsing
+        $content = $response.Content
+
+        $remoteVersion = Get-ScriptVersionFromContent $content
+        $localVersion = Get-LocalVersion $ScriptObject.Name
+
+        $cacheFile = Join-Path $BaseCachePath ($ScriptObject.Name + ".ps1")
+
+        if ([version]$remoteVersion -gt [version]$localVersion) {
+            Set-Content -Path $cacheFile -Value $content -Force
+            Set-LocalVersion $ScriptObject.Name $remoteVersion
+        }
+
+        if ($ScriptObject.RequiresAdmin -and -not (Test-Admin)) {
+            Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File `"$cacheFile`"" -Verb RunAs
+        }
+        else {
+            Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File `"$cacheFile`"" -Wait
+        }
+    }
+    catch {
+        [System.Windows.Forms.MessageBox]::Show("Execution failed: $_","Error")
+    }
+}
+
+# ---------------- GUI ----------------
+
+$form = New-Object System.Windows.Forms.Form
+$form.Text = "RMPIT Tech Toolkit"
+$form.Size = New-Object System.Drawing.Size(600,400)
+$form.StartPosition = "CenterScreen"
+
+$tabControl = New-Object System.Windows.Forms.TabControl
+$tabControl.Dock = "Fill"
+
+$categories = $Scripts | Select-Object -ExpandProperty Category -Unique
+
+foreach ($category in $categories) {
+
+    $tabPage = New-Object System.Windows.Forms.TabPage
+    $tabPage.Text = $category
+
+    $listBox = New-Object System.Windows.Forms.ListBox
+    $listBox.Dock = "Top"
+    $listBox.Height = 250
+
+    $categoryScripts = $Scripts | Where-Object {$_.Category -eq $category}
+
+    foreach ($script in $categoryScripts) {
+        $listBox.Items.Add($script.Name) | Out-Null
+    }
+
+    $runButton = New-Object System.Windows.Forms.Button
+    $runButton.Text = "Run Selected"
+    $runButton.Dock = "Bottom"
+
+    $runButton.Add_Click({
+        if ($listBox.SelectedIndex -ge 0) {
+            $selectedScript = $categoryScripts[$listBox.SelectedIndex]
+            Run-Script $selectedScript
+        }
+        else {
+            [System.Windows.Forms.MessageBox]::Show("Select a script first.")
+        }
+    })
+
+    $tabPage.Controls.Add($listBox)
+    $tabPage.Controls.Add($runButton)
+    $tabControl.TabPages.Add($tabPage)
+}
+
+$form.Controls.Add($tabControl)
+$form.Topmost = $true
+$form.Add_Shown({ $form.Activate() })
+
+[void]$form.ShowDialog()
