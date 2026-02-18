@@ -3,14 +3,16 @@ Add-Type -AssemblyName System.Drawing
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+# URL to fetch scripts.json
+$ScriptListUrl = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Config/scripts.json"
+# Cache folder
 $BaseCachePath = "C:\ProgramData\RMPIT-TechToolkit"
+
 if (!(Test-Path $BaseCachePath)) {
     New-Item -Path $BaseCachePath -ItemType Directory | Out-Null
 }
 
-# RAW path to scripts.json
-$ScriptListUrl = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Config/scripts.json"
-
+# Load scripts.json
 try {
     $jsonData = Invoke-WebRequest -Uri $ScriptListUrl -UseBasicParsing
     $Scripts = $jsonData.Content | ConvertFrom-Json
@@ -20,6 +22,7 @@ catch {
     return
 }
 
+# Function to get remote script version
 function Get-ScriptVersionFromContent {
     param ($Content)
     if ($Content -match "#\s*Version:\s*([0-9\.]+)") {
@@ -28,6 +31,7 @@ function Get-ScriptVersionFromContent {
     return "0.0.0"
 }
 
+# Function to get local version
 function Get-LocalVersion {
     param ($Name)
     $versionFile = Join-Path $BaseCachePath "$Name.version"
@@ -37,17 +41,20 @@ function Get-LocalVersion {
     return "0.0.0"
 }
 
+# Function to set local version
 function Set-LocalVersion {
-    param ($Name,$Version)
-    Set-Content (Join-Path $BaseCachePath "$Name.version") $Version
+    param ($Name, $Version)
+    Set-Content -Path (Join-Path $BaseCachePath "$Name.version") $Version
 }
 
+# Function to check admin
 function Test-Admin {
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal($identity)
     return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
+# Function to run scripts
 function Run-Script {
     param ($ScriptObject)
 
@@ -77,16 +84,17 @@ function Run-Script {
     }
 }
 
-# ---------------- GUI ----------------
-
+# Create main form
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "RMPIT Tech Toolkit"
 $form.Size = New-Object System.Drawing.Size(600,400)
 $form.StartPosition = "CenterScreen"
 
+# TabControl
 $tabControl = New-Object System.Windows.Forms.TabControl
 $tabControl.Dock = "Fill"
 
+# Unique categories
 $categories = $Scripts | Select-Object -ExpandProperty Category -Unique
 
 foreach ($category in $categories) {
@@ -98,25 +106,27 @@ foreach ($category in $categories) {
     $listBox.Dock = "Top"
     $listBox.Height = 250
 
-    $categoryScripts = $Scripts | Where-Object {$_.Category -eq $category}
+    # Filter scripts for this category
+    $categoryScripts = $Scripts | Where-Object { $_.Category -eq $category }
 
+    # Populate listbox
     foreach ($script in $categoryScripts) {
         $listBox.Items.Add($script.Name) | Out-Null
     }
 
-    # Capture the current $categoryScripts in a script block for the button
+    # Capture current categoryScripts for the event
+    $localCategoryScripts = $categoryScripts
+
+    # Create the button
     $runButton = New-Object System.Windows.Forms.Button
     $runButton.Text = "Run Selected"
     $runButton.Dock = "Bottom"
 
-    # Define the click event with the current context
+    # Add click event
     $runButton.Add_Click({
-        param($sender, $e)
         if ($listBox.SelectedIndex -ge 0) {
-            # Retrieve the selected script based on selected index
             $selectedIndex = $listBox.SelectedIndex
-            # Use the captured $categoryScripts
-            $selectedScript = $categoryScripts[$selectedIndex]
+            $selectedScript = $localCategoryScripts[$selectedIndex]
             Run-Script $selectedScript
         }
         else {
@@ -124,7 +134,16 @@ foreach ($category in $categories) {
         }
     })
 
+    # Assemble tab
     $tabPage.Controls.Add($listBox)
     $tabPage.Controls.Add($runButton)
     $tabControl.TabPages.Add($tabPage)
 }
+
+# Finalize form
+$form.Controls.Add($tabControl)
+$form.Topmost = $true
+$form.Add_Shown({ $form.Activate() })
+
+# Show dialog
+[void]$form.ShowDialog()
