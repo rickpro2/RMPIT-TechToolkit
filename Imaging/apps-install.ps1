@@ -1,3 +1,5 @@
+# Version: 1.0.0
+
 # Ensure winget is ready (optional, helps if the Store update is slow)
 Write-Host "Registering App Installer..."
 Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe
