@@ -7,8 +7,8 @@
   },
   {
     "Category": "Imaging",
-    "Name": "Setup Device",
-    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Imaging/Setup-Device.ps1",
+    "Name": "Install Apps",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Imaging/apps-install.ps1",
     "RequiresAdmin": true
   },
   {
