@@ -9,7 +9,7 @@ if (!(Test-Path $BaseCachePath)) {
 }
 
 # RAW path to scripts.json
-$ScriptListUrl = "https://raw.githubusercontent.com/YOURNAME/RMPIT-TechToolkit/main/Config/scripts.json"
+$ScriptListUrl = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Config/scripts.json"
 
 try {
     $jsonData = Invoke-WebRequest -Uri $ScriptListUrl -UseBasicParsing
