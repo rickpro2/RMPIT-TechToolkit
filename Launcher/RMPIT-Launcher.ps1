@@ -1,159 +1,175 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+# ==============================
+# CONFIG
+# ==============================
 
-# URL to fetch scripts.json
-$ScriptListUrl = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/scripts.json"
-# Cache folder
-$BaseCachePath = "C:\ProgramData\RMPIT-TechToolkit"
+$RepoJson = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/scripts.json"
+$LocalVersionFile = "$env:ProgramData\RMPIT_ScriptVersions.json"
+$LogFile = "$env:ProgramData\RMPIT_Launcher.log"
 
-if (!(Test-Path $BaseCachePath)) {
-    New-Item -Path $BaseCachePath -ItemType Directory | Out-Null
+# ==============================
+# LOGGING
+# ==============================
+
+function Write-Log {
+    param($Message)
+    $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    Add-Content -Path $LogFile -Value "[$time] $Message"
 }
 
-# Load scripts.json
-try {
-    $jsonData = Invoke-WebRequest -Uri $ScriptListUrl -UseBasicParsing
-    $Scripts = $jsonData.Content | ConvertFrom-Json
-}
-catch {
-    [System.Windows.Forms.MessageBox]::Show("Failed to load script list.","Error")
-    return
-}
+# ==============================
+# LOAD SCRIPT LIST
+# ==============================
 
-# Function to get remote script version
-function Get-ScriptVersionFromContent {
-    param ($Content)
-    if ($Content -match "#\s*Version:\s*([0-9\.]+)") {
-        return $matches[1]
-    }
-    return "0.0.0"
-}
-
-# Function to get local version
-function Get-LocalVersion {
-    param ($Name)
-    $versionFile = Join-Path $BaseCachePath "$Name.version"
-    if (Test-Path $versionFile) {
-        return Get-Content $versionFile
-    }
-    return "0.0.0"
-}
-
-# Function to set local version
-function Set-LocalVersion {
-    param ($Name, $Version)
-    Set-Content -Path (Join-Path $BaseCachePath "$Name.version") $Version
-}
-
-# Function to check admin
-function Test-Admin {
-    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
-    $principal = New-Object Security.Principal.WindowsPrincipal($identity)
-    return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-}
-
-# Function to run scripts
-function Run-Script {
-    param ($ScriptObject)
-
+function Load-Scripts {
     try {
-        $response = Invoke-WebRequest -Uri $ScriptObject.Url -UseBasicParsing -ErrorAction Stop
-
-        $content = $response.Content
-
-        $remoteVersion = Get-ScriptVersionFromContent $content
-        $localVersion = Get-LocalVersion $ScriptObject.Name
-
-        $cacheFile = Join-Path $BaseCachePath ($ScriptObject.Name + ".ps1")
-
-        if ([version]$remoteVersion -gt [version]$localVersion -or !(Test-Path $cacheFile)) {
-            Set-Content -Path $cacheFile -Value $content -Force
-            Set-LocalVersion $ScriptObject.Name $remoteVersion
-        }
-
-
-        if ($ScriptObject.RequiresAdmin -and -not (Test-Admin)) {
-            Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File `"$cacheFile`"" -Verb RunAs
-        }
-        else {
-            Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File `"$cacheFile`"" -Wait
-        }
+        $scripts = Invoke-RestMethod -Uri $RepoJson -UseBasicParsing
+        Write-Log "Script list loaded successfully"
+        return $scripts
     }
     catch {
-        [System.Windows.Forms.MessageBox]::Show("Execution failed: $_","Error")
+        [System.Windows.Forms.MessageBox]::Show("Failed to load script list from GitHub.","Error")
+        Write-Log "ERROR: Failed to load script list"
+        return $null
     }
 }
 
-# Create main form
-$form = New-Object System.Windows.Forms.Form
-$form.Text = "RMPIT Tech Toolkit"
-$form.Size = New-Object System.Drawing.Size(600,400)
-$form.StartPosition = "CenterScreen"
+# ==============================
+# VERSION HANDLING
+# ==============================
 
-# TabControl
-$tabControl = New-Object System.Windows.Forms.TabControl
-$tabControl.Dock = "Fill"
-
-# Unique categories
-$categories = $Scripts | Select-Object -ExpandProperty Category -Unique
-
-foreach ($category in $categories) {
-
-    $tabPage = New-Object System.Windows.Forms.TabPage
-    $tabPage.Text = $category
-
-    $listBox = New-Object System.Windows.Forms.ListBox
-    $listBox.Dock = "Top"
-    $listBox.Height = 250
-
-    # Filter scripts for this category
-    $categoryScripts = $Scripts | Where-Object { $_.Category -eq $category }
-
-    # Populate listbox
-    foreach ($script in $categoryScripts) {
-        $listBox.Items.Add($script.Name) | Out-Null
-    }
-
-   # Create the button
-$runButton = New-Object System.Windows.Forms.Button
-$runButton.Text = "Run Selected"
-$runButton.Dock = "Bottom"
-
-# Store needed objects in Tag
-$runButton.Tag = @{
-    ListBox = $listBox
-    Scripts = $categoryScripts
-}
-
-$runButton.Add_Click({
-    $context = $this.Tag
-    $lb = $context.ListBox
-    $scriptsForTab = $context.Scripts
-
-    if ($lb.SelectedIndex -ge 0) {
-        $selectedScript = $scriptsForTab[$lb.SelectedIndex]
-        Run-Script $selectedScript
+function Get-LocalVersions {
+    if (Test-Path $LocalVersionFile) {
+        return Get-Content $LocalVersionFile | ConvertFrom-Json
     }
     else {
-        [System.Windows.Forms.MessageBox]::Show("Select a script first.")
+        return @{}
+    }
+}
+
+function Save-LocalVersions($versions) {
+    $versions | ConvertTo-Json | Set-Content $LocalVersionFile
+}
+
+# ==============================
+# RUN SCRIPT
+# ==============================
+
+function Run-Script($script) {
+
+    $statusLabel.Text = "Running: $($script.Name)"
+    Write-Log "Running script: $($script.Name)"
+
+    $localVersions = Get-LocalVersions
+    $needsRun = $true
+
+    if ($localVersions.$($script.Name) -eq $script.Version) {
+        $result = [System.Windows.Forms.MessageBox]::Show(
+            "$($script.Name) version $($script.Version) already ran. Run again?",
+            "Version Check",
+            [System.Windows.Forms.MessageBoxButtons]::YesNo
+        )
+        if ($result -eq "No") { return }
+    }
+
+    try {
+        Invoke-Expression (Invoke-RestMethod $script.Url -UseBasicParsing)
+        $localVersions.$($script.Name) = $script.Version
+        Save-LocalVersions $localVersions
+        Write-Log "Completed: $($script.Name)"
+        $statusLabel.Text = "Completed: $($script.Name)"
+    }
+    catch {
+        Write-Log "ERROR running $($script.Name)"
+        $statusLabel.Text = "Error running: $($script.Name)"
+    }
+}
+
+# ==============================
+# BUILD UI
+# ==============================
+
+$form = New-Object System.Windows.Forms.Form
+$form.Text = "RMPIT Tech Toolkit - Professional Edition"
+$form.Size = New-Object System.Drawing.Size(750,500)
+$form.StartPosition = "CenterScreen"
+
+$listBox = New-Object System.Windows.Forms.ListView
+$listBox.View = "Details"
+$listBox.FullRowSelect = $true
+$listBox.GridLines = $true
+$listBox.Size = New-Object System.Drawing.Size(700,350)
+$listBox.Location = New-Object System.Drawing.Point(20,20)
+$listBox.Columns.Add("Script Name",250)
+$listBox.Columns.Add("Description",300)
+$listBox.Columns.Add("Version",80)
+
+$form.Controls.Add($listBox)
+
+# Buttons
+$runButton = New-Object System.Windows.Forms.Button
+$runButton.Text = "Run Selected"
+$runButton.Size = New-Object System.Drawing.Size(120,35)
+$runButton.Location = New-Object System.Drawing.Point(20,390)
+
+$runAllButton = New-Object System.Windows.Forms.Button
+$runAllButton.Text = "Run All"
+$runAllButton.Size = New-Object System.Drawing.Size(120,35)
+$runAllButton.Location = New-Object System.Drawing.Point(160,390)
+
+$form.Controls.Add($runButton)
+$form.Controls.Add($runAllButton)
+
+# Status bar
+$statusBar = New-Object System.Windows.Forms.StatusStrip
+$statusLabel = New-Object System.Windows.Forms.ToolStripStatusLabel
+$statusLabel.Text = "Ready"
+$statusBar.Items.Add($statusLabel)
+$form.Controls.Add($statusBar)
+
+# ==============================
+# LOAD DATA INTO UI
+# ==============================
+
+$scripts = Load-Scripts
+
+if ($scripts) {
+    foreach ($script in $scripts) {
+        $item = New-Object System.Windows.Forms.ListViewItem($script.Name)
+        $item.SubItems.Add($script.Description)
+        $item.SubItems.Add($script.Version)
+        $item.Tag = $script
+        $listBox.Items.Add($item)
+    }
+}
+
+# ==============================
+# EVENTS
+# ==============================
+
+$runButton.Add_Click({
+    if ($listBox.SelectedItems.Count -gt 0) {
+        Run-Script $listBox.SelectedItems[0].Tag
     }
 })
 
+$runAllButton.Add_Click({
+    foreach ($item in $listBox.Items) {
+        Run-Script $item.Tag
+    }
+})
 
-    # Assemble tab
-    $tabPage.Controls.Add($listBox)
-    $tabPage.Controls.Add($runButton)
-    $tabControl.TabPages.Add($tabPage)
-}
+$listBox.Add_DoubleClick({
+    if ($listBox.SelectedItems.Count -gt 0) {
+        Run-Script $listBox.SelectedItems[0].Tag
+    }
+})
 
-# Finalize form
-$form.Controls.Add($tabControl)
-$form.Topmost = $true
-$form.Add_Shown({ $form.Activate() })
+# ==============================
+# SHOW FORM
+# ==============================
 
-# Show dialog
-
-[void]$form.ShowDialog()
-
+Write-Log "Launcher Started"
+$form.ShowDialog()
