@@ -1,3 +1,31 @@
+# ==============================
+# FORCE ADMIN ELEVATION
+# ==============================
+
+function Test-IsAdmin {
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal($identity)
+    return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+if (-not (Test-IsAdmin)) {
+    Write-Host "Restarting as Administrator..."
+    
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"irm https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Launcher/RMPIT-Launcher.ps1 | iex`""
+    $psi.Verb = "runas"
+
+    try {
+        [System.Diagnostics.Process]::Start($psi) | Out-Null
+    }
+    catch {
+        Write-Host "User declined elevation."
+    }
+
+    exit
+}
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
