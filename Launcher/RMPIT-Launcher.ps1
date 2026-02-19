@@ -59,7 +59,8 @@ function Run-Script {
     param ($ScriptObject)
 
     try {
-        $response = Invoke-WebRequest -Uri $ScriptObject.Url -UseBasicParsing
+        $response = Invoke-WebRequest -Uri $ScriptObject.Url -UseBasicParsing -ErrorAction Stop
+
         $content = $response.Content
 
         $remoteVersion = Get-ScriptVersionFromContent $content
@@ -155,3 +156,4 @@ $form.Add_Shown({ $form.Activate() })
 # Show dialog
 
 [void]$form.ShowDialog()
+
