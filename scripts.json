@@ -1,14 +1,18 @@
 [
   {
     "Name": "Windows Optimizer",
-    "Description": "Optimizes Windows settings",
-    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/WindowsOptimizer.ps1",
-    "Version": "1.0"
+    "Category": "Optimization",
+    "Description": "Optimizes Windows performance settings",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/Optimization/WindowsOptimizer.ps1",
+    "Version": "1.2",
+    "RequiresAdmin": true
   },
   {
     "Name": "Software Installer",
-    "Description": "Installs common software",
-    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/apps-install.ps1",
-    "Version": "1.0"
+    "Category": "Installers",
+    "Description": "Installs common enterprise apps",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/Installers/apps-install.ps1",
+    "Version": "2.0",
+    "RequiresAdmin": true
   }
 ]
