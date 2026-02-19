@@ -67,10 +67,11 @@ function Run-Script {
 
         $cacheFile = Join-Path $BaseCachePath ($ScriptObject.Name + ".ps1")
 
-        if ([version]$remoteVersion -gt [version]$localVersion) {
+        if ([version]$remoteVersion -gt [version]$localVersion -or !(Test-Path $cacheFile)) {
             Set-Content -Path $cacheFile -Value $content -Force
             Set-LocalVersion $ScriptObject.Name $remoteVersion
         }
+
 
         if ($ScriptObject.RequiresAdmin -and -not (Test-Admin)) {
             Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -File `"$cacheFile`"" -Verb RunAs
