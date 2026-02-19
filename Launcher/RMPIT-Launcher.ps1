@@ -8,8 +8,7 @@ Add-Type -AssemblyName System.Drawing
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $ScriptJsonUrl = "$RepoBase/scripts.json"
 $LauncherVersionUrl = "$RepoBase/Launcher/launcher.version"
-$LocalLauncherVersion = "3.0.0"
-$VersionFile = "$env:ProgramData\RMPIT_ScriptVersions.json"
+$LocalLauncherVersion = "3.1.0"
 $LogFile = "$env:ProgramData\RMPIT_Launcher.log"
 
 # ==============================
@@ -54,20 +53,6 @@ function Check-LauncherUpdate {
 }
 
 # ==============================
-# SCRIPT SIGNATURE CHECK
-# ==============================
-
-function Validate-Signature($url) {
-    $temp = "$env:TEMP\temp_script.ps1"
-    Invoke-WebRequest $url -OutFile $temp -UseBasicParsing
-    $sig = Get-AuthenticodeSignature $temp
-    if ($sig.Status -eq "Valid") {
-        return $true
-    }
-    return $false
-}
-
-# ==============================
 # LOAD SCRIPTS
 # ==============================
 
@@ -91,31 +76,24 @@ function Run-Script($script) {
         return
     }
 
-    $progressBar.Value = 10
-    $statusLabel.Text = "Validating signature..."
-
-    if (-not (Validate-Signature $script.Url)) {
-        [System.Windows.Forms.MessageBox]::Show("Script signature invalid.")
-        return
-    }
-
-    $progressBar.Value = 40
-    $statusLabel.Text = "Downloading..."
-
-    $code = Invoke-RestMethod $script.Url -UseBasicParsing
-
-    $progressBar.Value = 70
-    $statusLabel.Text = "Executing..."
+    $progressBar.Value = 20
+    $statusLabel.Text = "Downloading $($script.Name)..."
 
     try {
+        $code = Invoke-RestMethod $script.Url -UseBasicParsing
+
+        $progressBar.Value = 60
+        $statusLabel.Text = "Executing..."
+
         Invoke-Expression $code
+
         $progressBar.Value = 100
         $statusLabel.Text = "Completed: $($script.Name)"
         Write-Log "Completed $($script.Name)"
     }
     catch {
+        $statusLabel.Text = "Error running script"
         Write-Log "Error running $($script.Name)"
-        $statusLabel.Text = "Error"
     }
 
     Start-Sleep 1
@@ -123,36 +101,81 @@ function Run-Script($script) {
 }
 
 # ==============================
-# UI BUILD (Dark Mode)
+# THEME FUNCTION
+# ==============================
+
+function Apply-Theme($mode) {
+
+    if ($mode -eq "Dark") {
+        $form.BackColor = "#1e1e1e"
+        $form.ForeColor = "White"
+        $statusBar.BackColor = "#2d2d2d"
+        $statusLabel.ForeColor = "White"
+        foreach ($tab in $tabControl.TabPages) {
+            $tab.BackColor = "#1e1e1e"
+            foreach ($ctrl in $tab.Controls) {
+                if ($ctrl -is [System.Windows.Forms.ListView]) {
+                    $ctrl.BackColor = "#2d2d2d"
+                    $ctrl.ForeColor = "White"
+                }
+            }
+        }
+    }
+    else {
+        $form.BackColor = "White"
+        $form.ForeColor = "Black"
+        $statusBar.BackColor = "LightGray"
+        $statusLabel.ForeColor = "Black"
+        foreach ($tab in $tabControl.TabPages) {
+            $tab.BackColor = "White"
+            foreach ($ctrl in $tab.Controls) {
+                if ($ctrl -is [System.Windows.Forms.ListView]) {
+                    $ctrl.BackColor = "White"
+                    $ctrl.ForeColor = "Black"
+                }
+            }
+        }
+    }
+}
+
+# ==============================
+# UI BUILD
 # ==============================
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "RMPIT Tech Toolkit - Enterprise v3"
-$form.Size = New-Object System.Drawing.Size(850,600)
-$form.BackColor = "#1e1e1e"
-$form.ForeColor = "White"
+$form.Text = "RMPIT Tech Toolkit v3.1"
+$form.Size = New-Object System.Drawing.Size(900,650)
 $form.StartPosition = "CenterScreen"
 
 $tabControl = New-Object System.Windows.Forms.TabControl
-$tabControl.Size = New-Object System.Drawing.Size(800,450)
-$tabControl.Location = New-Object System.Drawing.Point(20,20)
+$tabControl.Size = New-Object System.Drawing.Size(840,450)
+$tabControl.Location = New-Object System.Drawing.Point(20,60)
 $form.Controls.Add($tabControl)
 
 $progressBar = New-Object System.Windows.Forms.ProgressBar
 $progressBar.Size = New-Object System.Drawing.Size(600,25)
-$progressBar.Location = New-Object System.Drawing.Point(20,500)
+$progressBar.Location = New-Object System.Drawing.Point(20,540)
 $form.Controls.Add($progressBar)
 
 $statusBar = New-Object System.Windows.Forms.StatusStrip
-$statusBar.BackColor = "#2d2d2d"
 $statusLabel = New-Object System.Windows.Forms.ToolStripStatusLabel
 $statusLabel.Text = "Ready"
-$statusLabel.ForeColor = "White"
 $statusBar.Items.Add($statusLabel)
 $form.Controls.Add($statusBar)
 
+# Theme Dropdown
+$themeBox = New-Object System.Windows.Forms.ComboBox
+$themeBox.Items.AddRange(@("Dark","Light"))
+$themeBox.SelectedIndex = 0
+$themeBox.Location = New-Object System.Drawing.Point(20,20)
+$form.Controls.Add($themeBox)
+
+$themeBox.Add_SelectedIndexChanged({
+    Apply-Theme $themeBox.SelectedItem
+})
+
 # ==============================
-# LOAD & GROUP SCRIPTS
+# LOAD SCRIPTS
 # ==============================
 
 Check-LauncherUpdate
@@ -165,18 +188,15 @@ if ($scripts) {
 
         $tab = New-Object System.Windows.Forms.TabPage
         $tab.Text = $cat.Name
-        $tab.BackColor = "#1e1e1e"
 
         $list = New-Object System.Windows.Forms.ListView
         $list.View = "Details"
         $list.FullRowSelect = $true
         $list.GridLines = $true
-        $list.BackColor = "#2d2d2d"
-        $list.ForeColor = "White"
-        $list.Size = New-Object System.Drawing.Size(750,350)
+        $list.Size = New-Object System.Drawing.Size(800,350)
         $list.Location = New-Object System.Drawing.Point(10,10)
         $list.Columns.Add("Script",250)
-        $list.Columns.Add("Description",350)
+        $list.Columns.Add("Description",400)
         $list.Columns.Add("Version",80)
 
         foreach ($script in $cat.Group) {
@@ -198,5 +218,6 @@ if ($scripts) {
     }
 }
 
+Apply-Theme "Dark"
 Write-Log "Launcher started"
 $form.ShowDialog()
