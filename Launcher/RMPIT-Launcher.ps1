@@ -5,7 +5,7 @@ Add-Type -AssemblyName System.Drawing
 # CONFIG
 # ==============================
 
-$RepoJson = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/scripts.json"
+$RepoJson = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Config/scripts.json"
 $LocalVersionFile = "$env:ProgramData\RMPIT_ScriptVersions.json"
 $LogFile = "$env:ProgramData\RMPIT_Launcher.log"
 
