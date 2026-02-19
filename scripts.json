@@ -14,5 +14,13 @@
     "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/Installers/apps-install.ps1",
     "Version": "2.0",
     "RequiresAdmin": true
-  }
+  },
+  {
+    "Name": "Windows Activator",
+    "Category": "Optimization",
+    "Description": "Activates Windows and Microsoft Office",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/Optimization/WindowsOptimizer.ps1",
+    "Version": "1.2",
+    "RequiresAdmin": true
+  },
 ]
