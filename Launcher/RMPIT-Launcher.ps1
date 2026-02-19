@@ -64,19 +64,31 @@ function Is-Admin {
 function Check-LauncherUpdate {
     try {
         $remoteVersion = Invoke-RestMethod $LauncherVersionUrl -UseBasicParsing
+
         if ($remoteVersion -ne $LocalLauncherVersion) {
+
             $result = [System.Windows.Forms.MessageBox]::Show(
                 "New launcher version available ($remoteVersion). Update now?",
                 "Update Available",
-                "YesNo"
+                [System.Windows.Forms.MessageBoxButtons]::YesNo,
+                [System.Windows.Forms.MessageBoxIcon]::Information
             )
-            if ($result -eq "Yes") {
-                iex (irm "$RepoBase/Launcher/RMPIT-Launcher.ps1")
+
+            if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
+
+                # Download the latest launcher to temp path
+                $tempPath = Join-Path $env:TEMP "RMPIT-Launcher.ps1"
+                Invoke-WebRequest -Uri "$RepoBase/Launcher/RMPIT-Launcher.ps1" -OutFile $tempPath -UseBasicParsing
+
+                # Start the new launcher
+                Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempPath`"" -Verb RunAs
+
+                # Exit current launcher
                 exit
             }
         }
     } catch {
-        Write-Log "Launcher update check failed"
+        Write-Log "Launcher update check failed: $_"
     }
 }
 
