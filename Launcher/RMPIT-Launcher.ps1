@@ -4,7 +4,7 @@ Add-Type -AssemblyName System.Drawing
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # URL to fetch scripts.json
-$ScriptListUrl = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/scripts.json"
+$ScriptListUrl = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/scripts.json"
 # Cache folder
 $BaseCachePath = "C:\ProgramData\RMPIT-TechToolkit"
 
