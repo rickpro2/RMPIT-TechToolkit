@@ -2,13 +2,13 @@
   {
     "Name": "Windows Optimizer",
     "Description": "Optimizes Windows settings",
-    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/WindowsOptimizer.ps1",
+    "Url": "https://raw.githubusercontent.com/memstechtips/Winhance/refs/heads/main/Winhance.ps1",
     "Version": "1.0"
   },
   {
     "Name": "Software Installer",
     "Description": "Installs common software",
-    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/SoftwareInstaller.ps1",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/apps-install.ps1",
     "Version": "2.1"
   }
 ]
