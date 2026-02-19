@@ -114,25 +114,31 @@ foreach ($category in $categories) {
         $listBox.Items.Add($script.Name) | Out-Null
     }
 
-    # Capture current categoryScripts for the event
-    $localCategoryScripts = $categoryScripts
+   # Create the button
+$runButton = New-Object System.Windows.Forms.Button
+$runButton.Text = "Run Selected"
+$runButton.Dock = "Bottom"
 
-    # Create the button
-    $runButton = New-Object System.Windows.Forms.Button
-    $runButton.Text = "Run Selected"
-    $runButton.Dock = "Bottom"
+# Store needed objects in Tag
+$runButton.Tag = @{
+    ListBox = $listBox
+    Scripts = $categoryScripts
+}
 
-    # Add click event
-    $runButton.Add_Click({
-        if ($listBox.SelectedIndex -ge 0) {
-            $selectedIndex = $listBox.SelectedIndex
-            $selectedScript = $localCategoryScripts[$selectedIndex]
-            Run-Script $selectedScript
-        }
-        else {
-            [System.Windows.Forms.MessageBox]::Show("Select a script first.")
-        }
-    })
+$runButton.Add_Click({
+    $context = $this.Tag
+    $lb = $context.ListBox
+    $scriptsForTab = $context.Scripts
+
+    if ($lb.SelectedIndex -ge 0) {
+        $selectedScript = $scriptsForTab[$lb.SelectedIndex]
+        Run-Script $selectedScript
+    }
+    else {
+        [System.Windows.Forms.MessageBox]::Show("Select a script first.")
+    }
+})
+
 
     # Assemble tab
     $tabPage.Controls.Add($listBox)
@@ -146,4 +152,5 @@ $form.Topmost = $true
 $form.Add_Shown({ $form.Activate() })
 
 # Show dialog
+
 [void]$form.ShowDialog()
