@@ -1,0 +1,12 @@
+winget install --id Google.Chrome --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Brave.Brave --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id VideoLAN.VLC --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id 7zip.7zip --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Notepad++.Notepad++ --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Zoom.Zoom --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Adobe.Acrobat.Reader.64-bit --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Microsoft.Office --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Malwarebytes.Malwarebytes --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Romanitho.Winget-AutoUpdate --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Romanitho.WiGUI --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id TorProject.TorBrowser --silent --accept-source-agreements --accept-package-agreements --scope machine
