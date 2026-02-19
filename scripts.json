@@ -9,6 +9,6 @@
     "Name": "Software Installer",
     "Description": "Installs common software",
     "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/apps-install.ps1",
-    "Version": "2.1"
+    "Version": "1.0"
   }
 ]
