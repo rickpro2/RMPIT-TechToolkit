@@ -63,9 +63,17 @@ function Is-Admin {
 
 function Check-LauncherUpdate {
     try {
-        $remoteVersion = Invoke-RestMethod $LauncherVersionUrl -UseBasicParsing
+        $remoteVersionRaw = Invoke-RestMethod $LauncherVersionUrl -UseBasicParsing
+        $remoteVersion = $remoteVersionRaw.Trim()
 
-        if ($remoteVersion -ne $LocalLauncherVersion) {
+        Write-Log "Local version: $LocalLauncherVersion"
+        Write-Log "Remote version: $remoteVersion"
+
+        # Convert to version objects for proper comparison
+        $localVer = [version]$LocalLauncherVersion
+        $remoteVer = [version]$remoteVersion
+
+        if ($remoteVer -gt $localVer) {
 
             $result = [System.Windows.Forms.MessageBox]::Show(
                 "New launcher version available ($remoteVersion). Update now?",
@@ -76,18 +84,22 @@ function Check-LauncherUpdate {
 
             if ($result -eq [System.Windows.Forms.DialogResult]::Yes) {
 
-                # Download the latest launcher to temp path
                 $tempPath = Join-Path $env:TEMP "RMPIT-Launcher.ps1"
-                Invoke-WebRequest -Uri "$RepoBase/Launcher/RMPIT-Launcher.ps1" -OutFile $tempPath -UseBasicParsing
 
-                # Start the new launcher
-                Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempPath`"" -Verb RunAs
+                Invoke-WebRequest `
+                    -Uri "$RepoBase/Launcher/RMPIT-Launcher.ps1" `
+                    -OutFile $tempPath `
+                    -UseBasicParsing
 
-                # Exit current launcher
+                Start-Process powershell.exe `
+                    -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempPath`"" `
+                    -Verb RunAs
+
                 exit
             }
         }
-    } catch {
+    }
+    catch {
         Write-Log "Launcher update check failed: $_"
     }
 }
