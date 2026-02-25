@@ -36,7 +36,7 @@ Add-Type -AssemblyName System.Drawing
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $ScriptJsonUrl = "$RepoBase/scripts.json"
 $LauncherVersionUrl = "$RepoBase/Launcher/launcher.version"
-$LocalLauncherVersion = "3.1.5" # <- manually bump when publishing
+$LocalLauncherVersion = "3.1.6" # <- manually bump when publishing
 $form.Text = "RMPIT Tech Toolkit v$LocalLauncherVersion"
 $LogFile = "$env:ProgramData\RMPIT_Launcher.log"
 
@@ -130,15 +130,23 @@ function Run-Script($script) {
     }
 
     $progressBar.Value = 20
-    $statusLabel.Text = "Downloading $($script.Name)..."
+    $statusLabel.Text = "Running $($script.Name)..."
 
     try {
-        $code = Invoke-RestMethod $script.Url -UseBasicParsing
 
-        $progressBar.Value = 60
-        $statusLabel.Text = "Executing..."
+        # If URL does NOT end in .ps1, treat it like a live IRM command
+        if ($script.Url -notmatch "\.ps1$") {
 
-        Invoke-Expression $code
+            $progressBar.Value = 60
+            Invoke-Expression (Invoke-RestMethod $script.Url)
+
+        }
+        else {
+
+            $progressBar.Value = 60
+            $code = Invoke-RestMethod $script.Url -UseBasicParsing
+            Invoke-Expression $code
+        }
 
         $progressBar.Value = 100
         $statusLabel.Text = "Completed: $($script.Name)"
@@ -146,7 +154,7 @@ function Run-Script($script) {
     }
     catch {
         $statusLabel.Text = "Error running script"
-        Write-Log "Error running $($script.Name)"
+        Write-Log "Error running $($script.Name): $_"
     }
 
     Start-Sleep 1

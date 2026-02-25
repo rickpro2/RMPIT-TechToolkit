@@ -32,6 +32,14 @@
     "RequiresAdmin": true
   },
   {
+    "Name": "Microsoft Activation Scripts (MAS)",
+    "Category": "Optimization",
+    "Description": "Windows and Office activator",
+    "Url": "https://get.activated.win",
+    "Version": "Live",
+    "RequiresAdmin": true
+  },
+  {
     "Name": "Software Installer",
     "Category": "Installers",
     "Description": "Installs common enterprise apps",
