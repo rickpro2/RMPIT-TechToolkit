@@ -46,5 +46,13 @@
     "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/Installers/apps-install2.ps1",
     "Version": "1.0",
     "RequiresAdmin": true
-  }
+  },
+  {
+  "Name": "Chris Titus Windows Tool",
+  "Category": "Optimization",
+  "Description": "Windows debloat and tweak utility",
+  "Url": "https://christitus.com/win",
+  "Version": "Live",
+  "RequiresAdmin": true
+}
 ]
