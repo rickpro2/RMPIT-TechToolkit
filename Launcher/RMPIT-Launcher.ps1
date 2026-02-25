@@ -36,8 +36,7 @@ Add-Type -AssemblyName System.Drawing
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $ScriptJsonUrl = "$RepoBase/scripts.json"
 $LauncherVersionUrl = "$RepoBase/Launcher/launcher.version"
-$LocalLauncherVersion = "3.1.6" # <- manually bump when publishing
-$form.Text = "RMPIT Tech Toolkit v$LocalLauncherVersion"
+$LocalLauncherVersion = "3.1.8" # <- manually bump when publishing
 $LogFile = "$env:ProgramData\RMPIT_Launcher.log"
 
 # ==============================
@@ -130,27 +129,38 @@ function Run-Script($script) {
     }
 
     $progressBar.Value = 20
-    $statusLabel.Text = "Running $($script.Name)..."
+    $statusLabel.Text = "Starting $($script.Name)..."
 
     try {
 
-        # If URL does NOT end in .ps1, treat it like a live IRM command
-        if ($script.Url -notmatch "\.ps1$") {
+        # PowerShell script
+        if ($script.Url -match "\.ps1$") {
 
-            $progressBar.Value = 60
-            Invoke-Expression (Invoke-RestMethod $script.Url)
-
-        }
-        else {
-
-            $progressBar.Value = 60
+            $statusLabel.Text = "Downloading PowerShell script..."
             $code = Invoke-RestMethod $script.Url -UseBasicParsing
             Invoke-Expression $code
         }
 
+        # CMD / BAT script
+        elseif ($script.Url -match "\.(cmd|bat)$") {
+
+            $tempFile = Join-Path $env:TEMP "$($script.Name).cmd"
+            Invoke-WebRequest $script.Url -OutFile $tempFile -UseBasicParsing
+
+            Start-Process cmd.exe -ArgumentList "/c `"$tempFile`"" -Verb RunAs
+        }
+
+        # Live IRM script (like christitus.com)
+        else {
+
+            Start-Process powershell.exe `
+                -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm '$($script.Url)' | iex`"" `
+                -Verb RunAs
+        }
+
         $progressBar.Value = 100
-        $statusLabel.Text = "Completed: $($script.Name)"
-        Write-Log "Completed $($script.Name)"
+        $statusLabel.Text = "Launched: $($script.Name)"
+        Write-Log "Launched $($script.Name)"
     }
     catch {
         $statusLabel.Text = "Error running script"
@@ -204,7 +214,7 @@ function Apply-Theme($mode) {
 # ==============================
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "RMPIT Tech Toolkit v3.1"
+$form.Text = "RMPIT Tech Toolkit v$LocalLauncherVersion"
 $form.Size = New-Object System.Drawing.Size(900,650)
 $form.StartPosition = "CenterScreen"
 
