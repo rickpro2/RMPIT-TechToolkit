@@ -36,7 +36,7 @@ Add-Type -AssemblyName System.Drawing
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $ScriptJsonUrl = "$RepoBase/scripts.json"
 $LauncherVersionUrl = "$RepoBase/Launcher/launcher.version"
-$LocalLauncherVersion = "3.1.8" # <- manually bump when publishing
+$LocalLauncherVersion = "3.1.9" # <- manually bump when publishing
 $LogFile = "$env:ProgramData\RMPIT_Launcher.log"
 
 # ==============================

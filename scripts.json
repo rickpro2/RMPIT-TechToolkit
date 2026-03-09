@@ -54,5 +54,13 @@
   "Url": "https://christitus.com/win",
   "Version": "Live",
   "RequiresAdmin": true
-}
+  }, 
+  {
+    "Name": "Microsoft Activation Scripts (a)",
+    "Category": "Optimization",
+    "Description": "Windows and Office activator",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/Optimization/a.ps1",
+    "Version": "Live",
+    "RequiresAdmin": true
+  }
 ]
