@@ -10,3 +10,5 @@ winget install --id Malwarebytes.Malwarebytes --silent --accept-source-agreement
 winget install --id Romanitho.Winget-AutoUpdate --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Romanitho.WiGUI --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id TorProject.TorBrowser --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Discord.Discord --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id sonnylab.chatgpt --silent --accept-source-agreements --accept-package-agreements --scope machine
