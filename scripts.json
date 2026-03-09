@@ -71,5 +71,14 @@
     "Version": "Live",
     "RequiresAdmin": true,
     "Type": "CMD"
+  }, 
+  {
+    "Name": "Microsoft Activation Scripts (c)",
+    "Category": "Optimization",
+    "Description": "Windows and Office activator",
+    "Url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/Optimization/c.cmd",
+    "Version": "Live",
+    "RequiresAdmin": true,
+    "Type": "PowerShell"
   }
 ]
