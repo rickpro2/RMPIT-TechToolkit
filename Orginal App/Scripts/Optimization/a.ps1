@@ -1,0 +1,1 @@
+    PowerShell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://get.activated.win'))"
