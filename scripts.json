@@ -1,10 +1,29 @@
 {
- "category":"System Tools",
- "name":"Winget Installer",
- "url":"Scripts/ACTIVATION/a.ps1"
-}
-{
- "category":"System Tools",
- "name":"Winget Installer",
- "url":"rickpro2/RMPIT-TechToolkit/Scripts/ACTIVATION/c.ps1"
+  "scripts": [
+
+    {
+      "category": "Activation",
+      "name": "Activate Windows",
+      "url": "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/scripts/Activate-Windows.bat"
+    },
+
+    {
+      "category": "Activation",
+      "name": "Activate Office",
+      "url": "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/scripts/Activate-Office.ps1"
+    },
+
+    {
+      "category": "System Tools",
+      "name": "Chris Titus Windows Tool",
+      "url": "https://christitus.com/win"
+    },
+
+    {
+      "category": "Repair",
+      "name": "SFC Repair",
+      "url": "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts/sfc-repair.ps1"
+    }
+
+  ]
 }
