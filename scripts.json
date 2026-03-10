@@ -1,0 +1,10 @@
+{
+ "category":"System Tools",
+ "name":"Winget Installer",
+ "url":"Scripts/ACTIVATION/a.ps1"
+}
+{
+ "category":"System Tools",
+ "name":"Winget Installer",
+ "url":"rickpro2/RMPIT-TechToolkit/Scripts/ACTIVATION/c.ps1"
+}
