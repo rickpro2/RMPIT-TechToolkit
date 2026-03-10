@@ -127,7 +127,7 @@ function Write-OutputBox {
 # RUN REMOTE SCRIPT
 # ==============================
 
-function Run-GitScript {
+function Run-Tool {
 
     param(
         [string]$Name,
@@ -138,16 +138,50 @@ function Run-GitScript {
 
         Write-OutputBox "Launching $Name..."
 
-        Start-Process powershell.exe `
-        -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"irm '$URL' | iex`"" `
-        -Verb RunAs
+        $file = [System.IO.Path]::GetFileName($URL)
+        $temp = Join-Path $env:TEMP $file
+
+        # If it's a direct script file, download it
+        if ($URL -match "\.(ps1|bat|cmd|exe)$") {
+
+            Invoke-WebRequest $URL -OutFile $temp -UseBasicParsing
+
+            switch -Regex ($URL) {
+
+                "\.ps1$" {
+                    Start-Process powershell.exe `
+                    -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$temp`"" `
+                    -Verb RunAs
+                }
+
+                "\.(bat|cmd)$" {
+                    Start-Process cmd.exe `
+                    -ArgumentList "/c `"$temp`"" `
+                    -Verb RunAs
+                }
+
+                "\.exe$" {
+                    Start-Process $temp -Verb RunAs
+                }
+
+            }
+
+        }
+        else {
+
+            # Treat as IRM script
+            Start-Process powershell.exe `
+            -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"irm '$URL' | iex`"" `
+            -Verb RunAs
+
+        }
 
         $statusLabel.Text = "Running $Name"
 
     }
     catch {
 
-        Write-OutputBox "Error launching script."
+        Write-OutputBox "Failed to launch $Name"
         $statusLabel.Text = "Error"
 
     }
@@ -191,7 +225,7 @@ function Add-ToolkitButton {
     $btn.Location = New-Object System.Drawing.Point($X,$Y)
 
     $btn.Add_Click({
-        Run-GitScript $ScriptName $ScriptURL
+        Run-Tool $ScriptName $ScriptURL
     })
 
     $Tab.Controls.Add($btn)
@@ -222,7 +256,7 @@ Add-ToolkitButton `
 $tabActivation `
 "Activate Windows" `
 20 `
-20 `
+40 `
 "Windows Activation (b)" `
 "$RepoBase/ACTIVATION/a.cmd"
 
@@ -230,7 +264,7 @@ Add-ToolkitButton `
 $tabActivation `
 "Activate Windows" `
 20 `
-20 `
+60 `
 "Windows Activation (c)" `
 "$RepoBase/ACTIVATION/a.cmd"
 
