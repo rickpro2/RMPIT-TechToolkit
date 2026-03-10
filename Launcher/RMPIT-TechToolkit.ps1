@@ -37,7 +37,7 @@ Add-Type -AssemblyName System.Drawing
 # CONFIG
 # ==============================
 
-$Version = "4.0.0"
+$Version = "4.0.1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $IconURL = "$RepoBase/Assets/icon.ico"
 
