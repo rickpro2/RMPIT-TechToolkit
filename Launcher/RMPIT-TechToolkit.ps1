@@ -37,7 +37,7 @@ Add-Type -AssemblyName System.Drawing
 # CONFIG
 # ==============================
 
-$Version = "4.0.1"
+$Version = "4.0.2"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $IconURL = "$RepoBase/Assets/icon.ico"
 
@@ -99,6 +99,17 @@ $output.ReadOnly = $true
 
 $form.Controls.Add($output)
 
+$clearBtn = New-Object System.Windows.Forms.Button
+$clearBtn.Text = "Clear Console"
+$clearBtn.Size = New-Object System.Drawing.Size(120,30)
+$clearBtn.Location = New-Object System.Drawing.Point(840,440)
+
+$clearBtn.Add_Click({
+    $output.Clear()
+})
+
+$form.Controls.Add($clearBtn)
+
 # ==============================
 # STATUS BAR
 # ==============================
@@ -109,6 +120,7 @@ $statusLabel.Text = "Ready"
 
 $statusBar.Items.Add($statusLabel)
 $form.Controls.Add($statusBar)
+$statusBar.Dock = "Bottom"
 
 # ==============================
 # OUTPUT WRITER
@@ -146,7 +158,7 @@ function Run-Tool {
 
             Invoke-WebRequest $URL -OutFile $temp -UseBasicParsing
 
-            switch -Regex ($URL) {
+            switch -Regex ($file) {
 
                 "\.ps1$" {
                     Start-Process powershell.exe `
@@ -256,7 +268,7 @@ Add-ToolkitButton `
 $tabActivation `
 "Activate Windows" `
 20 `
-40 `
+70 `
 "Windows Activation (b)" `
 "$RepoBase/ACTIVATION/a.cmd"
 
@@ -264,7 +276,7 @@ Add-ToolkitButton `
 $tabActivation `
 "Activate Windows" `
 20 `
-60 `
+120 `
 "Windows Activation (c)" `
 "$RepoBase/ACTIVATION/a.cmd"
 
@@ -272,7 +284,7 @@ Add-ToolkitButton `
 $tabActivation `
 "Activate Office" `
 20 `
-80 `
+170 `
 "Office Activation" `
 "$RepoBase/ACTIVATION/a.ps1"
 
