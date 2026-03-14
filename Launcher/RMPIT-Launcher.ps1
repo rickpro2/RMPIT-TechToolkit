@@ -8,11 +8,11 @@
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-$RMPITApp3.0                     = New-Object system.Windows.Forms.Form
-$RMPITApp3.0.ClientSize          = New-Object System.Drawing.Point(975,854)
-$RMPITApp3.0.text                = "Windows 10 Debloat & System Helper By RMPIT LLC v.3.0"
-$RMPITApp3.0.TopMost             = $false
-$RMPITApp3.0.icon                = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
+$RMPITApp3                       = New-Object system.Windows.Forms.Form
+$RMPITApp3.ClientSize            = New-Object System.Drawing.Point(975,854)
+$RMPITApp3.text                  = "Windows 10 Debloat & System Helper By RMPIT LLC v.3.0"
+$RMPITApp3.TopMost               = $false
+$RMPITApp3.icon                  = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 
 $logo                            = New-Object system.Windows.Forms.PictureBox
 $logo.width                      = 185
@@ -124,7 +124,7 @@ $ExtraOptions.width              = 300
 $ExtraOptions.location           = New-Object System.Drawing.Point(9,225)
 
 $Button1                         = New-Object system.Windows.Forms.Button
-$Button1.text                    = "Button1"
+$Button1.text                    = "Activate Windows"
 $Button1.width                   = 130
 $Button1.height                  = 30
 $Button1.location                = New-Object System.Drawing.Point(10,40)
@@ -194,19 +194,38 @@ $ResultText.height               = 210
 $ResultText.location             = New-Object System.Drawing.Point(335,225)
 $ResultText.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITApp3.0.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
+$RMPITApp3.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
 $ExtraOptions.controls.AddRange(@($Button1,$ExtOpton,$Button2,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
 
 
 
 #region Activation
+# Activation 1
+function Sysprep { 
+$ProcName = "sysprep.bat"
+$WebFile = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/scripts/$ProcName"
+Clear-Host
+(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
+Start-Process ("$env:APPDATA\$ProcName") 
+}
+
+# Activation 2
+function Sysprep { 
+$ProcName = "ActivateWindows1.ps1"
+$RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
+$WebFile = "$RepoBase/Scripts/$ProcName"
+Clear-Host
+(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
+Start-Process ("$env:APPDATA\$ProcName") 
+}
 
 #endregion
 
 
-$ActivateWindows1.Add_Click({ Function })
+$ActivateWindows1.Add_Click({ ActivateWindows1 })
+$Button1.Add_Click({ ActivateWindows2 })
 
 
 
-[void]$RMPITApp3.0.ShowDialog()
+[void]$RMPITApp3.ShowDialog()
