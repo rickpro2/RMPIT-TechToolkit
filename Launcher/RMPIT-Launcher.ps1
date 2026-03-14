@@ -17,7 +17,7 @@ $RMPITApp3.icon                  = "https://raw.githubusercontent.com/rickpro2/W
 $logo                            = New-Object system.Windows.Forms.PictureBox
 $logo.width                      = 185
 $logo.height                     = 50
-$logo.location                   = New-Object System.Drawing.Point(20,664)
+$logo.location                   = New-Object System.Drawing.Point(27,500)
 $logo.imageLocation              = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 $logo.SizeMode                   = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 $Step1                           = New-Object system.Windows.Forms.Label
@@ -145,12 +145,12 @@ $ActivateWindows3.height         = 30
 $ActivateWindows3.location       = New-Object System.Drawing.Point(10,80)
 $ActivateWindows3.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Button3                         = New-Object system.Windows.Forms.Button
-$Button3.text                    = "Button3"
-$Button3.width                   = 130
-$Button3.height                  = 30
-$Button3.location                = New-Object System.Drawing.Point(10,120)
-$Button3.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows4                = New-Object system.Windows.Forms.Button
+$ActivateWindows4.text           = "Activate Windows 4"
+$ActivateWindows4.width          = 130
+$ActivateWindows4.height         = 30
+$ActivateWindows4.location       = New-Object System.Drawing.Point(10,120)
+$ActivateWindows4.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $Button4                         = New-Object system.Windows.Forms.Button
 $Button4.text                    = "Button4"
@@ -196,7 +196,7 @@ $ResultText.Font                 = New-Object System.Drawing.Font('Microsoft San
 
 $RMPITApp3.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
-$ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
+$ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$ActivateWindows4,$Button4,$Button5,$Button6,$Button7,$Button8))
 
 
 
@@ -230,12 +230,22 @@ Clear-Host
 Start-Process ("$env:APPDATA\$ProcName") 
 }
 
+# Activation 4
+function ActivateWindows4 { 
+$ProcName = "ActivateWindows4.ps1"
+$RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
+$WebFile = "$RepoBase/Scripts/$ProcName"
+Clear-Host
+(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
+Start-Process ("$env:APPDATA\$ProcName") 
+}
 #endregion
 
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
 $ActivateWindows3.Add_Click({ ActivateWindows3 })
+$ActivateWindows4.Add_Click({ ActivateWindows4 })
 
 
 
