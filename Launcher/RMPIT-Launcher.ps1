@@ -152,12 +152,12 @@ $ActivateWindows4.height         = 30
 $ActivateWindows4.location       = New-Object System.Drawing.Point(10,120)
 $ActivateWindows4.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Button4                         = New-Object system.Windows.Forms.Button
-$Button4.text                    = "Button4"
-$Button4.width                   = 130
-$Button4.height                  = 30
-$Button4.location                = New-Object System.Drawing.Point(10,160)
-$Button4.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows5                = New-Object system.Windows.Forms.Button
+$ActivateWindows5.text           = "Activate Windows 5"
+$ActivateWindows5.width          = 130
+$ActivateWindows5.height         = 30
+$ActivateWindows5.location       = New-Object System.Drawing.Point(10,160)
+$ActivateWindows5.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $Button5                         = New-Object system.Windows.Forms.Button
 $Button5.text                    = "Button5"
@@ -196,8 +196,47 @@ $ResultText.Font                 = New-Object System.Drawing.Font('Microsoft San
 
 $RMPITApp3.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
-$ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$ActivateWindows4,$Button4,$Button5,$Button6,$Button7,$Button8))
+$ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$ActivateWindows4,$ActivateWindows5,$Button5,$Button6,$Button7,$Button8))
 
+function Run-RMPITScript {
+
+param(
+    [string]$ScriptName,
+    [string]$RepoURL
+)
+
+$LocalFile = "$env:TEMP\$ScriptName"
+$WebFile   = "$RepoURL/$ScriptName"
+
+# Download script
+Invoke-WebRequest $WebFile -OutFile $LocalFile -UseBasicParsing
+
+$Extension = [System.IO.Path]::GetExtension($ScriptName)
+
+switch ($Extension) {
+
+    ".ps1" {
+        Start-Process powershell.exe -Verb RunAs -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"& '$LocalFile'; Remove-Item '$LocalFile' -Force`""
+    }
+
+    ".bat" {
+        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+    }
+
+    ".cmd" {
+        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+    }
+
+    default {
+        Start-Process $LocalFile -Verb RunAs
+    }
+
+}
+
+}
+
+
+$ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
 
 
 #region Activation
@@ -242,6 +281,12 @@ Invoke-WebRequest $WebFile -OutFile "$env:APPDATA\$ProcName"
 
 Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$env:APPDATA\$ProcName`""
 }
+
+# Activation 5
+function ActivateWindows5 {
+Run-RMPITScript "ActivateWindows5.ps1" $ToolkitRepo
+}
+
 #endregion
 
 
@@ -249,6 +294,7 @@ $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
 $ActivateWindows3.Add_Click({ ActivateWindows3 })
 $ActivateWindows4.Add_Click({ ActivateWindows4 })
+$ActivateWindows5.Add_Click({ ActivateWindows5 })
 
 
 
