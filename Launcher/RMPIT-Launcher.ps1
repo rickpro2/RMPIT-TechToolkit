@@ -1,7 +1,7 @@
 
 <# 
 .NAME
-    win 10 2025
+    RMPIT Techtoolkit
 
 #>
 
@@ -10,7 +10,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPIT-TechToolkit               = New-Object system.Windows.Forms.Form
 $RMPIT-TechToolkit.ClientSize    = New-Object System.Drawing.Point(975,800)
-$RMPIT-TechToolkit.text          = "Windows 10 Debloat & System Helper By RMPIT LLC v.1.0"
+$RMPIT-TechToolkit.text          = "Windows 10 Debloat & System Helper By RMPIT LLC v.1.1"
 $RMPIT-TechToolkit.TopMost       = $false
 $RMPIT-TechToolkit.icon          = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 
