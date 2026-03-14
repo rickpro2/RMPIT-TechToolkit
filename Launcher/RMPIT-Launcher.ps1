@@ -1,18 +1,18 @@
 
 <# 
 .NAME
-    Windows 11 Toolkit
+    win 10 2025
 
 #>
 
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-$RMPITApp3                       = New-Object system.Windows.Forms.Form
-$RMPITApp3.ClientSize            = New-Object System.Drawing.Point(975,854)
-$RMPITApp3.text                  = "Windows 10 Debloat & System Helper By RMPIT LLC v.3.0"
-$RMPITApp3.TopMost               = $false
-$RMPITApp3.icon                  = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
+$RMPITApp3.0                     = New-Object system.Windows.Forms.Form
+$RMPITApp3.0.ClientSize          = New-Object System.Drawing.Point(975,854)
+$RMPITApp3.0.text                = "Windows 10 Debloat & System Helper By RMPIT LLC v.3.0"
+$RMPITApp3.0.TopMost             = $false
+$RMPITApp3.0.icon                = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 
 $logo                            = New-Object system.Windows.Forms.PictureBox
 $logo.width                      = 185
@@ -124,10 +124,10 @@ $ExtraOptions.width              = 300
 $ExtraOptions.location           = New-Object System.Drawing.Point(9,225)
 
 $Button1                         = New-Object system.Windows.Forms.Button
-$Button1.text                    = "ActivateWindows1"
+$Button1.text                    = "Button1"
 $Button1.width                   = 130
 $Button1.height                  = 30
-$Button1.location                = New-Object System.Drawing.Point(18,265)
+$Button1.location                = New-Object System.Drawing.Point(10,40)
 $Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $ExtOpton                        = New-Object system.Windows.Forms.Label
@@ -187,32 +187,26 @@ $Button8.height                  = 30
 $Button8.location                = New-Object System.Drawing.Point(160,160)
 $Button8.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Panel1                          = New-Object system.Windows.Forms.Panel
-$Panel1.height                   = 210
-$Panel1.width                    = 300
-$Panel1.location                 = New-Object System.Drawing.Point(324,225)
+$ResultText                      = New-Object system.Windows.Forms.TextBox
+$ResultText.multiline            = $false
+$ResultText.width                = 300
+$ResultText.height               = 210
+$ResultText.location             = New-Object System.Drawing.Point(335,225)
+$ResultText.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITApp3.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$Button1,$Panel1))
+$RMPITApp3.0.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
-$ExtraOptions.controls.AddRange(@($ExtOpton,$Button2,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
+$ExtraOptions.controls.AddRange(@($Button1,$ExtOpton,$Button2,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
 
 
 
 #region Activation
-function ActivateWindows1 { 
-$ProcName = "ActivateWindows1.ps1"
-$RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
-$WebFile = "$RepoBase/Scripts/$ProcName"
-Clear-Host
-(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
-Start-Process ("$env:APPDATA\$ProcName") 
-}
-
-
-
 
 #endregion
 
 
-$Button1.Add_Click({ ActivateWindows1 })
+$ActivateWindows1.Add_Click({ Function })
 
+
+
+[void]$RMPITApp3.0.ShowDialog()
