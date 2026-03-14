@@ -211,23 +211,25 @@ Start-Process ("$env:APPDATA\$ProcName")
 }
 
 # Activation 2
-function ActivateWindows2 { 
-$ProcName = "ActivateWindows2.ps1"
+function ActivateWindows4 { 
+$ProcName = "ActivateWindows4.ps1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $WebFile = "$RepoBase/Scripts/$ProcName"
-Clear-Host
-(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
-Start-Process ("$env:APPDATA\$ProcName") 
+
+Invoke-WebRequest $WebFile -OutFile "$env:APPDATA\$ProcName"
+
+Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$env:APPDATA\$ProcName`""
 }
 
 # Activation 3
-function ActivateWindows3 { 
-$ProcName = "ActivateWindows3.ps1"
+function ActivateWindows4 { 
+$ProcName = "ActivateWindows4.ps1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $WebFile = "$RepoBase/Scripts/$ProcName"
-Clear-Host
-(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
-Start-Process ("$env:APPDATA\$ProcName") 
+
+Invoke-WebRequest $WebFile -OutFile "$env:APPDATA\$ProcName"
+
+Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$env:APPDATA\$ProcName`""
 }
 
 # Activation 4
@@ -235,9 +237,10 @@ function ActivateWindows4 {
 $ProcName = "ActivateWindows4.ps1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $WebFile = "$RepoBase/Scripts/$ProcName"
-Clear-Host
-(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
-Start-Process ("$env:APPDATA\$ProcName") 
+
+Invoke-WebRequest $WebFile -OutFile "$env:APPDATA\$ProcName"
+
+Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$env:APPDATA\$ProcName`""
 }
 #endregion
 
