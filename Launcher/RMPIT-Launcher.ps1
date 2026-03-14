@@ -202,7 +202,7 @@ $ExtraOptions.controls.AddRange(@($ExtOpton,$Button2,$Button3,$Button4,$Button5,
 function ActivateWindows1 { 
 $ProcName = "ActivateWindows1.ps1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
-$WebFile = "$RepoBase/$ProcName"
+$WebFile = "$RepoBase/Scripts/$ProcName"
 Clear-Host
 (New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
 Start-Process ("$env:APPDATA\$ProcName") 
