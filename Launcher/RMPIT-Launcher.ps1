@@ -8,11 +8,11 @@
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-$RMPITApp3                       = New-Object system.Windows.Forms.Form
-$RMPITApp3.ClientSize            = New-Object System.Drawing.Point(975,800)
-$RMPITApp3.text                  = "Windows 10 Debloat & System Helper By RMPIT LLC v.3.0"
-$RMPITApp3.TopMost               = $false
-$RMPITApp3.icon                  = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
+$RMPIT-TechToolkit               = New-Object system.Windows.Forms.Form
+$RMPIT-TechToolkit.ClientSize    = New-Object System.Drawing.Point(975,800)
+$RMPIT-TechToolkit.text          = "Windows 10 Debloat & System Helper By RMPIT LLC v.1.0"
+$RMPIT-TechToolkit.TopMost       = $false
+$RMPIT-TechToolkit.icon          = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 
 $logo                            = New-Object system.Windows.Forms.PictureBox
 $logo.width                      = 185
@@ -194,7 +194,7 @@ $ResultText.height               = 210
 $ResultText.location             = New-Object System.Drawing.Point(335,225)
 $ResultText.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITApp3.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
+$RMPIT-TechToolkit.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
 $ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$ActivateWindows4,$ActivateWindows5,$Button5,$Button6,$Button7,$Button8))
 
@@ -240,6 +240,9 @@ $ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/mai
 
 
 #region Activation
+<#
+This is the orgianal Activation Script that we knwo that works
+
 # Activation 1
 function ActivateWindows1 { 
 $ProcName = "sysprep.bat"
@@ -249,37 +252,26 @@ Clear-Host
 Start-Process ("$env:APPDATA\$ProcName") 
 }
 
+#>
+
+# Activation 1
+function ActivateWindows1 {
+Run-RMPITScript "sysprep.bat" "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/scripts"
+}
+
 # Activation 2
-function ActivateWindows2 { 
-$ProcName = "ActivateWindows2.ps1"
-$RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
-$WebFile = "$RepoBase/Scripts/$ProcName"
-
-Invoke-WebRequest $WebFile -OutFile "$env:APPDATA\$ProcName"
-
-Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$env:APPDATA\$ProcName`""
+function ActivateWindows2 {
+Run-RMPITScript "ActivateWindows2.ps1" $ToolkitRepo
 }
 
 # Activation 3
-function ActivateWindows3 { 
-$ProcName = "ActivateWindows3.ps1"
-$RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
-$WebFile = "$RepoBase/Scripts/$ProcName"
-
-Invoke-WebRequest $WebFile -OutFile "$env:APPDATA\$ProcName"
-
-Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$env:APPDATA\$ProcName`""
+function ActivateWindows3 {
+Run-RMPITScript "ActivateWindows3.ps1" $ToolkitRepo
 }
 
 # Activation 4
-function ActivateWindows4 { 
-$ProcName = "ActivateWindows4.ps1"
-$RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
-$WebFile = "$RepoBase/Scripts/$ProcName"
-
-Invoke-WebRequest $WebFile -OutFile "$env:APPDATA\$ProcName"
-
-Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -File `"$env:APPDATA\$ProcName`""
+function ActivateWindows4 {
+Run-RMPITScript "ActivateWindows4.ps1" $ToolkitRepo
 }
 
 # Activation 5
@@ -298,4 +290,4 @@ $ActivateWindows5.Add_Click({ ActivateWindows5 })
 
 
 
-[void]$RMPITApp3.ShowDialog()
+[void]$RMPIT-TechToolkit.ShowDialog()
