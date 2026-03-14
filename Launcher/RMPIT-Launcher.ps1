@@ -198,9 +198,7 @@ $RMPITApp3.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultTex
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
 $ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$ActivateWindows4,$ActivateWindows5,$Button5,$Button6,$Button7,$Button8))
 
- <#
- 
- function Run-RMPITScript {
+function Run-RMPITScript {
 
 param(
     [string]$ScriptName,
@@ -240,7 +238,6 @@ switch ($Extension) {
 
 $ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
 
-#>
 
 #region Activation
 # Activation 1
