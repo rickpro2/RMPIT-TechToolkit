@@ -124,7 +124,7 @@ $ExtraOptions.width              = 300
 $ExtraOptions.location           = New-Object System.Drawing.Point(9,225)
 
 $ActivateWindows2                = New-Object system.Windows.Forms.Button
-$ActivateWindows2.text           = "Activate Windows"
+$ActivateWindows2.text           = "Activate Windows 2"
 $ActivateWindows2.width          = 130
 $ActivateWindows2.height         = 30
 $ActivateWindows2.location       = New-Object System.Drawing.Point(10,40)
@@ -138,12 +138,12 @@ $ExtOpton.height                 = 10
 $ExtOpton.location               = New-Object System.Drawing.Point(10,10)
 $ExtOpton.Font                   = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
-$Button2                         = New-Object system.Windows.Forms.Button
-$Button2.text                    = "Button2"
-$Button2.width                   = 130
-$Button2.height                  = 30
-$Button2.location                = New-Object System.Drawing.Point(10,80)
-$Button2.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows3                = New-Object system.Windows.Forms.Button
+$ActivateWindows3.text           = "Activate Windows 3"
+$ActivateWindows3.width          = 130
+$ActivateWindows3.height         = 30
+$ActivateWindows3.location       = New-Object System.Drawing.Point(10,80)
+$ActivateWindows3.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $Button3                         = New-Object system.Windows.Forms.Button
 $Button3.text                    = "Button3"
@@ -196,7 +196,7 @@ $ResultText.Font                 = New-Object System.Drawing.Font('Microsoft San
 
 $RMPITApp3.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
-$ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$Button2,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
+$ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
 
 
 
@@ -212,7 +212,17 @@ Start-Process ("$env:APPDATA\$ProcName")
 
 # Activation 2
 function ActivateWindows2 { 
-$ProcName = "ActivateWindows1.ps1"
+$ProcName = "ActivateWindows2.ps1"
+$RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
+$WebFile = "$RepoBase/Scripts/$ProcName"
+Clear-Host
+(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
+Start-Process ("$env:APPDATA\$ProcName") 
+}
+
+# Activation 3
+function ActivateWindows3 { 
+$ProcName = "ActivateWindows3.ps1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $WebFile = "$RepoBase/Scripts/$ProcName"
 Clear-Host
@@ -225,6 +235,7 @@ Start-Process ("$env:APPDATA\$ProcName")
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
+$ActivateWindows3.Add_Click({ ActivateWindows3 })
 
 
 
