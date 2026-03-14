@@ -211,8 +211,8 @@ Start-Process ("$env:APPDATA\$ProcName")
 }
 
 # Activation 2
-function ActivateWindows4 { 
-$ProcName = "ActivateWindows4.ps1"
+function ActivateWindows2 { 
+$ProcName = "ActivateWindows2.ps1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $WebFile = "$RepoBase/Scripts/$ProcName"
 
@@ -222,8 +222,8 @@ Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -NoProfile -
 }
 
 # Activation 3
-function ActivateWindows4 { 
-$ProcName = "ActivateWindows4.ps1"
+function ActivateWindows3 { 
+$ProcName = "ActivateWindows3.ps1"
 $RepoBase = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
 $WebFile = "$RepoBase/Scripts/$ProcName"
 
