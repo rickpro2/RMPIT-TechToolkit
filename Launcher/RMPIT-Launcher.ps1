@@ -1,32 +1,23 @@
 
-
-function Get-HotReload {
-     
-     $Form.Close()
-     $headers = @{Authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjVhM2IwMzMxNmQwYzQ2NTJkMzkyMyIsImlhdCI6MTc3MzYxMjg0MywiZXhwIjoxNzczNjEzMTQzfQ.cahEqerdexWdxcbUMqg934Jr2gCKqRPCmEw3gE-iWlU"}
-     $response = Invoke-RestMethod -Uri "https://app.poshgui.com/api/hotreload/winform/69b5a3b03316d0c4652d3923" -Method Get -Headers $headers
-     iex $response
-    }
-
 <# 
 .NAME
-    Fork of win 10 2025
+    win 10 2025
 
 #>
 
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-$RMPITTechToolkit                = New-Object system.Windows.Forms.Form
-$RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,590)
-$RMPITTechToolkit.text           = "Windows 10 Debloat & System Helper By RMPIT LLC v.1.0"
-$RMPITTechToolkit.TopMost        = $false
-$RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
+$RMPITApp3.0                     = New-Object system.Windows.Forms.Form
+$RMPITApp3.0.ClientSize          = New-Object System.Drawing.Point(975,854)
+$RMPITApp3.0.text                = "Windows 10 Debloat & System Helper By RMPIT LLC v.3.0"
+$RMPITApp3.0.TopMost             = $false
+$RMPITApp3.0.icon                = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 
 $logo                            = New-Object system.Windows.Forms.PictureBox
 $logo.width                      = 185
 $logo.height                     = 50
-$logo.location                   = New-Object System.Drawing.Point(32,514)
+$logo.location                   = New-Object System.Drawing.Point(36,764)
 $logo.imageLocation              = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 $logo.SizeMode                   = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 $Step1                           = New-Object system.Windows.Forms.Label
@@ -203,13 +194,7 @@ $ResultText.height               = 210
 $ResultText.location             = New-Object System.Drawing.Point(335,225)
 $ResultText.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$hotreload                       = New-Object system.Windows.Forms.PictureBox
-$hotreload.width                 = 60
-$hotreload.height                = 30
-$hotreload.location              = New-Object System.Drawing.Point(915,1)
-$hotreload.imageLocation         = "https://app.poshgui.com/images/refresh.png"
-$hotreload.SizeMode              = [System.Windows.Forms.PictureBoxSizeMode]::zoom
-$RMPITTechToolkit.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText,$hotreload))
+$RMPITApp3.0.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
 $ExtraOptions.controls.AddRange(@($Button1,$ExtOpton,$Button2,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
 
@@ -223,4 +208,5 @@ $ExtraOptions.controls.AddRange(@($Button1,$ExtOpton,$Button2,$Button3,$Button4,
 $ActivateWindows1.Add_Click({ Function })
 
 
-$hotreload.Add_Click({Get-HotReload})
+
+[void]$RMPITApp3.0.ShowDialog()
