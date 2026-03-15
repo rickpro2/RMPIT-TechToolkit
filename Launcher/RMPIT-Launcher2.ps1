@@ -1,23 +1,23 @@
 
 <# 
 .NAME
-    Fork of win 10 2025
+    RMPIT Techtoolkit
 
 #>
 
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-$RMPITTechToolkit                = New-Object system.Windows.Forms.Form
-$RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,590)
-$RMPITTechToolkit.text           = "Windows 10 Debloat & System Helper By RMPIT LLC v.1.0"
-$RMPITTechToolkit.TopMost        = $false
-$RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
+$RMPIT-TechToolkit               = New-Object system.Windows.Forms.Form
+$RMPIT-TechToolkit.ClientSize    = New-Object System.Drawing.Point(975,800)
+$RMPIT-TechToolkit.text          = "Windows 10 Debloat & System Helper By RMPIT LLC v.1.1"
+$RMPIT-TechToolkit.TopMost       = $false
+$RMPIT-TechToolkit.icon          = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 
 $logo                            = New-Object system.Windows.Forms.PictureBox
 $logo.width                      = 185
 $logo.height                     = 50
-$logo.location                   = New-Object System.Drawing.Point(32,514)
+$logo.location                   = New-Object System.Drawing.Point(27,500)
 $logo.imageLocation              = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 $logo.SizeMode                   = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 $Step1                           = New-Object system.Windows.Forms.Label
@@ -123,12 +123,12 @@ $ExtraOptions.height             = 210
 $ExtraOptions.width              = 300
 $ExtraOptions.location           = New-Object System.Drawing.Point(9,225)
 
-$Button1                         = New-Object system.Windows.Forms.Button
-$Button1.text                    = "Button1"
-$Button1.width                   = 130
-$Button1.height                  = 30
-$Button1.location                = New-Object System.Drawing.Point(10,40)
-$Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows2                = New-Object system.Windows.Forms.Button
+$ActivateWindows2.text           = "Activate Windows 2"
+$ActivateWindows2.width          = 130
+$ActivateWindows2.height         = 30
+$ActivateWindows2.location       = New-Object System.Drawing.Point(10,40)
+$ActivateWindows2.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $ExtOpton                        = New-Object system.Windows.Forms.Label
 $ExtOpton.text                   = "Extra Options"
@@ -138,26 +138,26 @@ $ExtOpton.height                 = 10
 $ExtOpton.location               = New-Object System.Drawing.Point(10,10)
 $ExtOpton.Font                   = New-Object System.Drawing.Font('Microsoft Sans Serif',12,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
-$Button2                         = New-Object system.Windows.Forms.Button
-$Button2.text                    = "Button2"
-$Button2.width                   = 130
-$Button2.height                  = 30
-$Button2.location                = New-Object System.Drawing.Point(10,80)
-$Button2.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows3                = New-Object system.Windows.Forms.Button
+$ActivateWindows3.text           = "Activate Windows 3"
+$ActivateWindows3.width          = 130
+$ActivateWindows3.height         = 30
+$ActivateWindows3.location       = New-Object System.Drawing.Point(10,80)
+$ActivateWindows3.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Button3                         = New-Object system.Windows.Forms.Button
-$Button3.text                    = "Button3"
-$Button3.width                   = 130
-$Button3.height                  = 30
-$Button3.location                = New-Object System.Drawing.Point(10,120)
-$Button3.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows4                = New-Object system.Windows.Forms.Button
+$ActivateWindows4.text           = "Activate Windows 4"
+$ActivateWindows4.width          = 130
+$ActivateWindows4.height         = 30
+$ActivateWindows4.location       = New-Object System.Drawing.Point(10,120)
+$ActivateWindows4.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Button4                         = New-Object system.Windows.Forms.Button
-$Button4.text                    = "Button4"
-$Button4.width                   = 130
-$Button4.height                  = 30
-$Button4.location                = New-Object System.Drawing.Point(10,160)
-$Button4.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows5                = New-Object system.Windows.Forms.Button
+$ActivateWindows5.text           = "Activate Windows 5"
+$ActivateWindows5.width          = 130
+$ActivateWindows5.height         = 30
+$ActivateWindows5.location       = New-Object System.Drawing.Point(10,160)
+$ActivateWindows5.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $Button5                         = New-Object system.Windows.Forms.Button
 $Button5.text                    = "Button5"
@@ -194,16 +194,100 @@ $ResultText.height               = 210
 $ResultText.location             = New-Object System.Drawing.Point(335,225)
 $ResultText.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITTechToolkit.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
+$RMPIT-TechToolkit.controls.AddRange(@($logo,$Title,$MajorSteps,$ExtraOptions,$ResultText))
 $MajorSteps.controls.AddRange(@($Step1,$ActivateWindows1,$Debloat,$Customize,$ChocolateyAllApps,$Sysprep,$Step2,$Step3,$Step4,$Step5))
-$ExtraOptions.controls.AddRange(@($Button1,$ExtOpton,$Button2,$Button3,$Button4,$Button5,$Button6,$Button7,$Button8))
+$ExtraOptions.controls.AddRange(@($ActivateWindows2,$ExtOpton,$ActivateWindows3,$ActivateWindows4,$ActivateWindows5,$Button5,$Button6,$Button7,$Button8))
+<#
+function Run-RMPITScript {
 
+param(
+    [string]$ScriptName,
+    [string]$RepoURL
+)
+
+$LocalFile = "$env:TEMP\$ScriptName"
+$WebFile   = "$RepoURL/$ScriptName"
+
+# Download script
+Invoke-WebRequest $WebFile -OutFile $LocalFile -UseBasicParsing
+
+$Extension = [System.IO.Path]::GetExtension($ScriptName)
+
+switch ($Extension) {
+
+    ".ps1" {
+        Start-Process powershell.exe -Verb RunAs -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"& '$LocalFile'; Remove-Item '$LocalFile' -Force`""
+    }
+
+    ".bat" {
+        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+    }
+
+    ".cmd" {
+        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+    }
+
+    default {
+        Start-Process $LocalFile -Verb RunAs
+    }
+
+}
+
+}
+
+
+$ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
 
 
 #region Activation
 
+This is the orgianal Activation Script that we knwo that works
+
+# Activation 1
+function ActivateWindows1 { 
+$ProcName = "sysprep.bat"
+$WebFile = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/scripts/$ProcName"
+Clear-Host
+(New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
+Start-Process ("$env:APPDATA\$ProcName") 
+}
+
+
+
+# Activation 1
+function ActivateWindows1 {
+Run-RMPITScript "sysprep.bat" "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/scripts"
+}
+
+# Activation 2
+function ActivateWindows2 {
+Run-RMPITScript "ActivateWindows2.ps1" $ToolkitRepo
+}
+
+# Activation 3
+function ActivateWindows3 {
+Run-RMPITScript "ActivateWindows3.ps1" $ToolkitRepo
+}
+
+# Activation 4
+function ActivateWindows4 {
+Run-RMPITScript "ActivateWindows4.ps1" $ToolkitRepo
+}
+
+# Activation 5
+function ActivateWindows5 {
+Run-RMPITScript "ActivateWindows5.ps1" $ToolkitRepo
+}
+
 #endregion
 
+$ActivateWindows1.Add_Click({ ActivateWindows1 })
+$ActivateWindows2.Add_Click({ ActivateWindows2 })
+$ActivateWindows3.Add_Click({ ActivateWindows3 })
+$ActivateWindows4.Add_Click({ ActivateWindows4 })
+$ActivateWindows5.Add_Click({ ActivateWindows5 })
+#>
 
-$ActivateWindows1.Add_Click({ Function })
 
+
+[void]$RMPIT-TechToolkit.ShowDialog()
