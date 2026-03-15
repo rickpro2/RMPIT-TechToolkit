@@ -252,7 +252,7 @@ Clear-Host
 Start-Process ("$env:APPDATA\$ProcName") 
 }
 
-#>
+
 
 # Activation 1
 function ActivateWindows1 {
@@ -280,7 +280,7 @@ Run-RMPITScript "ActivateWindows5.ps1" $ToolkitRepo
 }
 
 #endregion
-
+#>
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
