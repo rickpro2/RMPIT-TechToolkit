@@ -16,16 +16,6 @@ $RMPITAPP.text                   = "Windows 10 Debloat & System Helper By RMPIT 
 $RMPITAPP.TopMost                = $false
 $RMPITAPP.icon                   = "https://raw.githubusercontent.com/rickpro2/Win10Reimage/main/RMPIT_logo.png"
 
-$Title                           = New-Object system.Windows.Forms.Label
-$Title.text                      = "Program Installation"
-$Title.AutoSize                  = $true
-$Title.visible                   = $true
-$Title.enabled                   = $true
-$Title.width                     = 25
-$Title.height                    = 10
-$Title.location                  = New-Object System.Drawing.Point(10,10)
-$Title.Font                      = New-Object System.Drawing.Font('Microsoft Sans Serif',30,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
-
 $MajorSteps                      = New-Object system.Windows.Forms.Panel
 $MajorSteps.height               = 140
 $MajorSteps.width                = 950
