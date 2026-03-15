@@ -3,7 +3,7 @@
 function Get-HotReload {
      
      $Form.Close()
-     $headers = @{Authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjczMWMxMzMxNmQwYzQ2NTJkM2I5YyIsImlhdCI6MTc3MzYxMzU0NCwiZXhwIjoxNzczNjEzODQ0fQ.ZySJF2IwbPHeEOozM6ONl3qS6YK7tTo-TWMFghotP2M"}
+     $headers = @{Authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjczMWMxMzMxNmQwYzQ2NTJkM2I5YyIsImlhdCI6MTc3MzYxMzU5NCwiZXhwIjoxNzczNjEzODk0fQ.uUZdJhSeMdVzbYD0gYGtBhHxdiuRjNL0QhLRuBRRAro"}
      $response = Invoke-RestMethod -Uri "https://app.poshgui.com/api/hotreload/winform/69b731c13316d0c4652d3b9c" -Method Get -Headers $headers
      iex $response
     }
