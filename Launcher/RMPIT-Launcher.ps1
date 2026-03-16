@@ -20,7 +20,21 @@ $logo.height                     = 50
 $logo.location                   = New-Object System.Drawing.Point(42,518)
 $logo.imageLocation              = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/logo.png"
 $logo.SizeMode                   = [System.Windows.Forms.PictureBoxSizeMode]::zoom
-$RMPITTechToolkit.controls.AddRange(@($logo))
+$ActivationPanel                 = New-Object system.Windows.Forms.Panel
+$ActivationPanel.height          = 210
+$ActivationPanel.width           = 300
+$ActivationPanel.location        = New-Object System.Drawing.Point(9,225)
+
+$ActivationLabel                 = New-Object system.Windows.Forms.Label
+$ActivationLabel.text            = "Activation"
+$ActivationLabel.AutoSize        = $true
+$ActivationLabel.width           = 25
+$ActivationLabel.height          = 10
+$ActivationLabel.location        = New-Object System.Drawing.Point(12,13)
+$ActivationLabel.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
+
+$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel))
+$ActivationPanel.controls.AddRange(@($ActivationLabel))
 
 
 
