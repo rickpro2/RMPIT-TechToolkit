@@ -1,7 +1,11 @@
 
 <# 
 .NAME
-    This is at test
+    RMPIT Win11 Toolkit
+.SYNOPSIS
+    Scripts to help windows 11 installations
+.DESCRIPTION
+    This is a list of scripts to help make windows better.
 
 #>
 
@@ -107,18 +111,25 @@ $Label1.height                   = 10
 $Label1.location                 = New-Object System.Drawing.Point(15,17)
 $Label1.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
-$Button1                         = New-Object system.Windows.Forms.Button
-$Button1.text                    = "Activate-Office.bat"
-$Button1.width                   = 148
-$Button1.height                  = 30
-$Button1.location                = New-Object System.Drawing.Point(12,56)
-$Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$Activate-OfficeButton           = New-Object system.Windows.Forms.Button
+$Activate-OfficeButton.text      = "Activate Microsoft Office"
+$Activate-OfficeButton.width     = 148
+$Activate-OfficeButton.height    = 30
+$Activate-OfficeButton.location  = New-Object System.Drawing.Point(12,133)
+$Activate-OfficeButton.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$tor                             = New-Object system.Windows.Forms.Button
+$tor.text                        = "tor"
+$tor.width                       = 148
+$tor.height                      = 30
+$tor.location                    = New-Object System.Drawing.Point(26,70)
+$tor.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2))
-$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2))
+$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2,$Activate-OfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InsallApps1,$InsallApps2))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton))
-$Panel2.controls.AddRange(@($Label1,$Button1))
+$Panel2.controls.AddRange(@($Label1,$tor))
 
 <#
 function Run-RMPITScript {
@@ -259,6 +270,10 @@ function ActivateWindows2 {
 Run-RMPITScript "ActivateWindows2.ps1" $ActivationRepo
 }
 
+# attivateoffice.bat
+function activate-office {
+Run-RMPITScript "Activate-Office.bat" $ActivationRepo
+}
 #endregion
 
 #region Installers
@@ -283,7 +298,7 @@ Run-RMPITScript "CTWT.ps1" $ToolsRepo
 #region testing
 # attivateoffice.bat
 function activate-office {
-Run-RMPITScript "Activate-Office.bat" $testingRepo
+Run-RMPITScript "tor.ps1" $testingRepo
 }
 #endregion
 
@@ -293,7 +308,8 @@ $ActivateWindows2.Add_Click({ ActivateWindows2 })
 $InsallApps1.Add_Click({ apps1 })
 $InsallApps2.Add_Click({ apps2 })
 $CTWTButton.Add_Click({ CTWT })
-$Button1.Add_Click({ activate-office })
+$Activate-OfficeButton.Add_Click({ activate-office })
+$tor.Add_Click({ tor })
 
 
 
