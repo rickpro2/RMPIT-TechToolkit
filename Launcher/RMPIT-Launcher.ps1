@@ -54,8 +54,29 @@ $ActivateWindows3.height         = 30
 $ActivateWindows3.location       = New-Object System.Drawing.Point(12,132)
 $ActivateWindows3.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel))
+$InstallerPanel                  = New-Object system.Windows.Forms.Panel
+$InstallerPanel.height           = 210
+$InstallerPanel.width            = 300
+$InstallerPanel.location         = New-Object System.Drawing.Point(352,227)
+
+$InstallerLabel                  = New-Object system.Windows.Forms.Label
+$InstallerLabel.text             = "Install"
+$InstallerLabel.AutoSize         = $true
+$InstallerLabel.width            = 25
+$InstallerLabel.height           = 10
+$InstallerLabel.location         = New-Object System.Drawing.Point(15,11)
+$InstallerLabel.Font             = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
+
+$Button1                         = New-Object system.Windows.Forms.Button
+$Button1.text                    = "Activate Windows 1"
+$Button1.width                   = 148
+$Button1.height                  = 30
+$Button1.location                = New-Object System.Drawing.Point(12,50)
+$Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2,$ActivateWindows3))
+$InstallerPanel.controls.AddRange(@($InstallerLabel,$Button1))
 
 <#
 function Run-RMPITScript {
@@ -197,6 +218,10 @@ Run-RMPITScript "ActivateWindows2.ps1" $ActivationRepo
 function ActivateWindows3 {
 Run-RMPITScript "b.cmd" $ActivationRepo
 }
+#endregion
+
+#region Installers
+ 
 #endregion
 
 
