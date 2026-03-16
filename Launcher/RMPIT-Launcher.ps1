@@ -50,6 +50,7 @@ $ActivateWindows2.Font           = New-Object System.Drawing.Font('Microsoft San
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2))
 
+<#
 function Run-RMPITScript {
 
 param(
@@ -88,17 +89,103 @@ switch ($Extension) {
 }
 
 $ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
+#>
+
+
+
+# =====================================================
+# RMPIT Toolkit Script Runner
+# Supports PS1 / BAT / CMD / EXE
+# Auto Admin Elevation + Auto Cleanup
+# =====================================================
+
+function Run-RMPITScript {
+
+param(
+    [string]$ScriptName,
+    [string]$RepoURL
+)
+
+$LocalFile = "$env:TEMP\$ScriptName"
+$WebFile   = "$RepoURL/$ScriptName"
+
+try {
+
+    # Download Script
+    Invoke-WebRequest $WebFile -OutFile $LocalFile -UseBasicParsing
+
+}
+catch {
+
+    [System.Windows.Forms.MessageBox]::Show("Failed to download script:`n$WebFile","Download Error")
+    return
+
+}
+
+$Extension = [System.IO.Path]::GetExtension($ScriptName)
+
+switch ($Extension) {
+
+    ".ps1" {
+
+        Start-Process powershell.exe `
+        -Verb RunAs `
+        -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"& '$LocalFile'; Remove-Item '$LocalFile' -Force`""
+
+    }
+
+    ".bat" {
+
+        Start-Process cmd.exe `
+        -Verb RunAs `
+        -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+
+    }
+
+    ".cmd" {
+
+        Start-Process cmd.exe `
+        -Verb RunAs `
+        -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+
+    }
+
+    ".exe" {
+
+        Start-Process $LocalFile -Verb RunAs
+    }
+
+    default {
+
+        Start-Process $LocalFile -Verb RunAs
+
+    }
+
+}
+
+}
+
+# =====================================================
+# GitHub Script Locations
+# =====================================================
+
+$ScriptsRoot = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
+
+$ActivationRepo = "$ScriptsRoot/Activation"
+$AppsRepo       = "$ScriptsRoot/Apps"
+$SystemRepo     = "$ScriptsRoot/System"
 
 #region Activation
  # Activation 1
 function ActivateWindows1 {
-Run-RMPITScript "ActivateWindows1.ps1" $ToolkitRepo
+Run-RMPITScript "ActivateWindows1.ps1" $ActivationRepo
 }
 
  # Activation 2
-function ActivateWindows1 {
-Run-RMPITScript "ActivateWindows2.ps1" $ToolkitRepo
+function ActivateWindows2 {
+Run-RMPITScript "ActivateWindows2.ps1" $ActivationRepo
 }
+
 #endregion
 
 
