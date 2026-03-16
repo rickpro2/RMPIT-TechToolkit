@@ -82,7 +82,15 @@ switch ($Extension) {
 
 $ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
 
+#region Activation
+ # Activation 1
+function ActivateWindows1 {
+Run-RMPITScript "ActivateWindows1.ps1" $ToolkitRepo
+}
+#endregion
 
+
+$ActivateWindows1.Add_Click({ ActivateWindows1 })
 
 
 

