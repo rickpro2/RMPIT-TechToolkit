@@ -296,8 +296,8 @@ Run-RMPITScript "CTWT.ps1" $ToolsRepo
 #endregion
 
 #region testing
-# attivateoffice.bat
-function activate-office {
+# tor
+function tor {
 Run-RMPITScript "tor.ps1" $testingRepo
 }
 #endregion
