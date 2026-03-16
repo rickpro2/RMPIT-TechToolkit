@@ -30,7 +30,7 @@ $ActivationLabel.text            = "Activation"
 $ActivationLabel.AutoSize        = $true
 $ActivationLabel.width           = 25
 $ActivationLabel.height          = 10
-$ActivationLabel.location        = New-Object System.Drawing.Point(12,13)
+$ActivationLabel.location        = New-Object System.Drawing.Point(15,11)
 $ActivationLabel.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
 $ActivateWindows1                = New-Object system.Windows.Forms.Button
@@ -50,7 +50,7 @@ $ActivateWindows2.Font           = New-Object System.Drawing.Font('Microsoft San
 $InstallerPanel                  = New-Object system.Windows.Forms.Panel
 $InstallerPanel.height           = 210
 $InstallerPanel.width            = 300
-$InstallerPanel.location         = New-Object System.Drawing.Point(352,227)
+$InstallerPanel.location         = New-Object System.Drawing.Point(329,225)
 
 $InstallerLabel                  = New-Object system.Windows.Forms.Label
 $InstallerLabel.text             = "Install"
@@ -74,9 +74,30 @@ $InsallApps2.height              = 30
 $InsallApps2.location            = New-Object System.Drawing.Point(12,92)
 $InsallApps2.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel))
+$Panel1                          = New-Object system.Windows.Forms.Panel
+$Panel1.height                   = 210
+$Panel1.width                    = 300
+$Panel1.location                 = New-Object System.Drawing.Point(653,225)
+
+$ToolsLabel                      = New-Object system.Windows.Forms.Label
+$ToolsLabel.text                 = "Tools"
+$ToolsLabel.AutoSize             = $true
+$ToolsLabel.width                = 25
+$ToolsLabel.height               = 10
+$ToolsLabel.location             = New-Object System.Drawing.Point(15,11)
+$ToolsLabel.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
+
+$CTWTButton                      = New-Object system.Windows.Forms.Button
+$CTWTButton.text                 = "Chris Titus Windows Tool"
+$CTWTButton.width                = 148
+$CTWTButton.height               = 30
+$CTWTButton.location             = New-Object System.Drawing.Point(12,52)
+$CTWTButton.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InsallApps1,$InsallApps2))
+$Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton))
 
 <#
 function Run-RMPITScript {
@@ -201,7 +222,7 @@ $ScriptsRoot = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/mai
 
 $ActivationRepo = "$ScriptsRoot/Activation"
 $AppsRepo       = "$ScriptsRoot/Installers"
-$SystemRepo     = "$ScriptsRoot/System"
+$ToolsRepo     = "$ScriptsRoot/Tools"
 
 #region Activation
 # Activation 1
@@ -228,11 +249,19 @@ Run-RMPITScript "apps-install2.ps1" $AppsRepo
 }
 #endregion
 
+#region Tools
+# Chris Titus Windows Tool
+function ActivateWindows1 {
+Run-RMPITScript "CTWT.ps1" $ToolsRepo
+}
+#endregion
+
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
 $InsallApps1.Add_Click({ apps1 })
 $InsallApps2.Add_Click({ apps2 })
+$CTWTButton.Add_Click({ CTWT })
 
 
 
