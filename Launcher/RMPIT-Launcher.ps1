@@ -47,13 +47,6 @@ $ActivateWindows2.height         = 30
 $ActivateWindows2.location       = New-Object System.Drawing.Point(12,92)
 $ActivateWindows2.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$ActivateWindows3                = New-Object system.Windows.Forms.Button
-$ActivateWindows3.text           = "Activate Windows 3"
-$ActivateWindows3.width          = 148
-$ActivateWindows3.height         = 30
-$ActivateWindows3.location       = New-Object System.Drawing.Point(12,132)
-$ActivateWindows3.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
-
 $InstallerPanel                  = New-Object system.Windows.Forms.Panel
 $InstallerPanel.height           = 210
 $InstallerPanel.width            = 300
@@ -67,16 +60,23 @@ $InstallerLabel.height           = 10
 $InstallerLabel.location         = New-Object System.Drawing.Point(15,11)
 $InstallerLabel.Font             = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
-$Button1                         = New-Object system.Windows.Forms.Button
-$Button1.text                    = "Activate Windows 1"
-$Button1.width                   = 148
-$Button1.height                  = 30
-$Button1.location                = New-Object System.Drawing.Point(12,50)
-$Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$InsallApps1                     = New-Object system.Windows.Forms.Button
+$InsallApps1.text                = "Apps 1"
+$InsallApps1.width               = 148
+$InsallApps1.height              = 30
+$InsallApps1.location            = New-Object System.Drawing.Point(12,52)
+$InsallApps1.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$InsallApps2                     = New-Object system.Windows.Forms.Button
+$InsallApps2.text                = "Apps 2"
+$InsallApps2.width               = 148
+$InsallApps2.height              = 30
+$InsallApps2.location            = New-Object System.Drawing.Point(12,92)
+$InsallApps2.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel))
-$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2,$ActivateWindows3))
-$InstallerPanel.controls.AddRange(@($InstallerLabel,$Button1))
+$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2))
+$InstallerPanel.controls.AddRange(@($InstallerLabel,$InsallApps1,$InsallApps2))
 
 <#
 function Run-RMPITScript {
@@ -200,34 +200,39 @@ switch ($Extension) {
 $ScriptsRoot = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
 
 $ActivationRepo = "$ScriptsRoot/Activation"
-$AppsRepo       = "$ScriptsRoot/Apps"
+$AppsRepo       = "$ScriptsRoot/Installers"
 $SystemRepo     = "$ScriptsRoot/System"
 
 #region Activation
- # Activation 1
+# Activation 1
 function ActivateWindows1 {
 Run-RMPITScript "ActivateWindows1.ps1" $ActivationRepo
 }
 
- # Activation 2
+# Activation 2
 function ActivateWindows2 {
 Run-RMPITScript "ActivateWindows2.ps1" $ActivationRepo
 }
 
- # Activation 3
-function ActivateWindows3 {
-Run-RMPITScript "b.cmd" $ActivationRepo
-}
 #endregion
 
 #region Installers
- 
+# Installer 1
+function apps1 {
+Run-RMPITScript "apps-install.ps1" $AppsRepo
+}
+
+# Installer 2
+function apps2 {
+Run-RMPITScript "apps-install2.ps1" $AppsRepo
+}
 #endregion
 
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
-$ActivateWindows3.Add_Click({ ActivateWindows3 })
+$InsallApps1.Add_Click({ apps1 })
+$InsallApps2.Add_Click({ apps2 })
 
 
 
