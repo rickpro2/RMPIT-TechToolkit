@@ -35,13 +35,20 @@ $ActivationLabel.Font            = New-Object System.Drawing.Font('Microsoft San
 
 $ActivateWindows1                = New-Object system.Windows.Forms.Button
 $ActivateWindows1.text           = "Activate Windows 1"
-$ActivateWindows1.width          = 130
+$ActivateWindows1.width          = 148
 $ActivateWindows1.height         = 30
 $ActivateWindows1.location       = New-Object System.Drawing.Point(12,52)
 $ActivateWindows1.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
+$ActivateWindows2                = New-Object system.Windows.Forms.Button
+$ActivateWindows2.text           = "Activate Windows 2"
+$ActivateWindows2.width          = 148
+$ActivateWindows2.height         = 30
+$ActivateWindows2.location       = New-Object System.Drawing.Point(12,98)
+$ActivateWindows2.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel))
-$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1))
+$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2))
 
 function Run-RMPITScript {
 
@@ -87,10 +94,16 @@ $ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/mai
 function ActivateWindows1 {
 Run-RMPITScript "ActivateWindows1.ps1" $ToolkitRepo
 }
+
+ # Activation 2
+function ActivateWindows1 {
+Run-RMPITScript "ActivateWindows2.ps1" $ToolkitRepo
+}
 #endregion
 
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
+$ActivateWindows2.Add_Click({ ActivateWindows2 })
 
 
 
