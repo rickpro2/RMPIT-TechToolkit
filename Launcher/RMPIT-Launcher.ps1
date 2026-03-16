@@ -33,8 +33,15 @@ $ActivationLabel.height          = 10
 $ActivationLabel.location        = New-Object System.Drawing.Point(12,13)
 $ActivationLabel.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
+$ActivateWindows1                = New-Object system.Windows.Forms.Button
+$ActivateWindows1.text           = "Activate Windows 3"
+$ActivateWindows1.width          = 130
+$ActivateWindows1.height         = 30
+$ActivateWindows1.location       = New-Object System.Drawing.Point(12,39)
+$ActivateWindows1.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel))
-$ActivationPanel.controls.AddRange(@($ActivationLabel))
+$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1))
 
 
 
