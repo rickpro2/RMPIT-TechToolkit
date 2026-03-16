@@ -47,8 +47,15 @@ $ActivateWindows2.height         = 30
 $ActivateWindows2.location       = New-Object System.Drawing.Point(12,92)
 $ActivateWindows2.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
+$ActivateWindows3                = New-Object system.Windows.Forms.Button
+$ActivateWindows3.text           = "Activate Windows 3"
+$ActivateWindows3.width          = 148
+$ActivateWindows3.height         = 30
+$ActivateWindows3.location       = New-Object System.Drawing.Point(12,132)
+$ActivateWindows3.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel))
-$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2))
+$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2,$ActivateWindows3))
 
 <#
 function Run-RMPITScript {
@@ -186,11 +193,16 @@ function ActivateWindows2 {
 Run-RMPITScript "ActivateWindows2.ps1" $ActivationRepo
 }
 
+ # Activation 3
+function ActivateWindows3 {
+Run-RMPITScript "b.cmd" $ActivationRepo
+}
 #endregion
 
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
+$ActivateWindows3.Add_Click({ ActivateWindows3 })
 
 
 
