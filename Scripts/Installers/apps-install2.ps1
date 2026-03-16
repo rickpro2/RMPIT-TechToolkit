@@ -12,3 +12,7 @@ winget install --id Romanitho.WiGUI --silent --accept-source-agreements --accept
 winget install --id TorProject.TorBrowser --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Discord.Discord --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id sonnylab.chatgpt --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Open-Shell.Open-Shell-Menu --silent --accept-source-agreements --accept-package-agreements --scope machine
+
+
+
