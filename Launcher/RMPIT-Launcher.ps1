@@ -53,7 +53,7 @@ $InstallerPanel.width            = 300
 $InstallerPanel.location         = New-Object System.Drawing.Point(329,225)
 
 $InstallerLabel                  = New-Object system.Windows.Forms.Label
-$InstallerLabel.text             = "Install"
+$InstallerLabel.text             = "Installers"
 $InstallerLabel.AutoSize         = $true
 $InstallerLabel.width            = 25
 $InstallerLabel.height           = 10
@@ -94,10 +94,31 @@ $CTWTButton.height               = 30
 $CTWTButton.location             = New-Object System.Drawing.Point(12,52)
 $CTWTButton.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1))
+$Panel2                          = New-Object system.Windows.Forms.Panel
+$Panel2.height                   = 172
+$Panel2.width                    = 300
+$Panel2.location                 = New-Object System.Drawing.Point(653,24)
+
+$Label1                          = New-Object system.Windows.Forms.Label
+$Label1.text                     = "Testing"
+$Label1.AutoSize                 = $true
+$Label1.width                    = 25
+$Label1.height                   = 10
+$Label1.location                 = New-Object System.Drawing.Point(15,17)
+$Label1.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
+
+$Button1                         = New-Object system.Windows.Forms.Button
+$Button1.text                    = "Activate-Office.bat"
+$Button1.width                   = 148
+$Button1.height                  = 30
+$Button1.location                = New-Object System.Drawing.Point(12,56)
+$Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InsallApps1,$InsallApps2))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton))
+$Panel2.controls.AddRange(@($Label1,$Button1))
 
 <#
 function Run-RMPITScript {
@@ -223,6 +244,7 @@ $ScriptsRoot = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/mai
 $ActivationRepo = "$ScriptsRoot/Activation"
 $AppsRepo       = "$ScriptsRoot/Installers"
 $ToolsRepo     = "$ScriptsRoot/Tools"
+$TestingRepo     = "$ScriptsRoot/testing"
 
 #region Activation
 # Activation 1
@@ -256,12 +278,20 @@ Run-RMPITScript "CTWT.ps1" $ToolsRepo
 }
 #endregion
 
+#region testing
+# attivateoffice.bat
+function ActivateWindows1 {
+Run-RMPITScript "Activate-Office.bat" $testingRepo
+}
+#endregion
+
 
 $ActivateWindows1.Add_Click({ ActivateWindows1 })
 $ActivateWindows2.Add_Click({ ActivateWindows2 })
 $InsallApps1.Add_Click({ apps1 })
 $InsallApps2.Add_Click({ apps2 })
 $CTWTButton.Add_Click({ CTWT })
+$Button1.Add_Click({ activate-office })
 
 
 
