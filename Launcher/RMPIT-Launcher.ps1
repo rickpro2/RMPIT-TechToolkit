@@ -206,10 +206,12 @@ switch ($Extension) {
 
     ".bat" {
 
-        Start-Process cmd.exe `
-        -Verb RunAs `
-        -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+    Start-Process cmd.exe `
+    -Verb RunAs `
+    -Wait `
+    -ArgumentList "/c `"$LocalFile`""
 
+    Remove-Item $LocalFile -Force
     }
 
     ".cmd" {
@@ -273,14 +275,14 @@ Run-RMPITScript "apps-install2.ps1" $AppsRepo
 
 #region Tools
 # Chris Titus Windows Tool
-function ActivateWindows1 {
+function CTWT {
 Run-RMPITScript "CTWT.ps1" $ToolsRepo
 }
 #endregion
 
 #region testing
 # attivateoffice.bat
-function ActivateWindows1 {
+function activate-office {
 Run-RMPITScript "Activate-Office.bat" $testingRepo
 }
 #endregion
