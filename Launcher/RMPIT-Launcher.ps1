@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.1.1"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.1"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -111,12 +111,12 @@ $Label1.height                   = 10
 $Label1.location                 = New-Object System.Drawing.Point(15,17)
 $Label1.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
-$Activate-OfficeButton           = New-Object system.Windows.Forms.Button
-$Activate-OfficeButton.text      = "Activate Microsoft Office"
-$Activate-OfficeButton.width     = 148
-$Activate-OfficeButton.height    = 30
-$Activate-OfficeButton.location  = New-Object System.Drawing.Point(12,133)
-$Activate-OfficeButton.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateOfficeButton            = New-Object system.Windows.Forms.Button
+$ActivateOfficeButton.text       = "Activate Microsoft Office"
+$ActivateOfficeButton.width      = 148
+$ActivateOfficeButton.height     = 30
+$ActivateOfficeButton.location   = New-Object System.Drawing.Point(12,133)
+$ActivateOfficeButton.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $tor                             = New-Object system.Windows.Forms.Button
 $tor.text                        = "tor"
@@ -126,7 +126,7 @@ $tor.location                    = New-Object System.Drawing.Point(26,70)
 $tor.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2))
-$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2,$Activate-OfficeButton))
+$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InsallApps1,$InsallApps2))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton))
 $Panel2.controls.AddRange(@($Label1,$tor))
@@ -271,7 +271,7 @@ Run-RMPITScript "ActivateWindows2.ps1" $ActivationRepo
 }
 
 # attivateoffice.bat
-function activate-office {
+function activateoffice {
 Run-RMPITScript "Activate-Office.bat" $ActivationRepo
 }
 #endregion
@@ -298,7 +298,7 @@ Run-RMPITScript "CTWT.ps1" $ToolsRepo
 #region testing
 # tor
 function tor {
-Run-RMPITScript "tor.ps1" $testingRepo
+Run-RMPITScript "tor.ps1" $TestingRepo
 }
 #endregion
 
@@ -308,7 +308,7 @@ $ActivateWindows2.Add_Click({ ActivateWindows2 })
 $InsallApps1.Add_Click({ apps1 })
 $InsallApps2.Add_Click({ apps2 })
 $CTWTButton.Add_Click({ CTWT })
-$Activate-OfficeButton.Add_Click({ activate-office })
+$ActivateOfficeButton.Add_Click({ activateoffice })
 $tor.Add_Click({ tor })
 
 
