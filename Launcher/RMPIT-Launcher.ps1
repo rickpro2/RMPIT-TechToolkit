@@ -87,17 +87,17 @@ switch ($Extension) {
 
 }
 
-$ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main"
+$ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
 
 #region Activation
  # Activation 1
 function ActivateWindows1 {
-Run-RMPITScript "/Scripts/ActivateWindows1.ps1" $ToolkitRepo
+Run-RMPITScript "ActivateWindows1.ps1" $ToolkitRepo
 }
 
  # Activation 2
 function ActivateWindows1 {
-Run-RMPITScript "Scripts/ActivateWindows2.ps1" $ToolkitRepo
+Run-RMPITScript "ActivateWindows2.ps1" $ToolkitRepo
 }
 #endregion
 
