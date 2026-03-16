@@ -43,7 +43,44 @@ $ActivateWindows1.Font           = New-Object System.Drawing.Font('Microsoft San
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1))
 
+function Run-RMPITScript {
 
+param(
+    [string]$ScriptName,
+    [string]$RepoURL
+)
+
+$LocalFile = "$env:TEMP\$ScriptName"
+$WebFile   = "$RepoURL/$ScriptName"
+
+# Download script
+Invoke-WebRequest $WebFile -OutFile $LocalFile -UseBasicParsing
+
+$Extension = [System.IO.Path]::GetExtension($ScriptName)
+
+switch ($Extension) {
+
+    ".ps1" {
+        Start-Process powershell.exe -Verb RunAs -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"& '$LocalFile'; Remove-Item '$LocalFile' -Force`""
+    }
+
+    ".bat" {
+        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+    }
+
+    ".cmd" {
+        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
+    }
+
+    default {
+        Start-Process $LocalFile -Verb RunAs
+    }
+
+}
+
+}
+
+$ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
 
 
 
