@@ -122,14 +122,21 @@ $tor                             = New-Object system.Windows.Forms.Button
 $tor.text                        = "tor"
 $tor.width                       = 148
 $tor.height                      = 30
-$tor.location                    = New-Object System.Drawing.Point(26,70)
+$tor.location                    = New-Object System.Drawing.Point(17,46)
 $tor.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$winscript                       = New-Object system.Windows.Forms.Button
+$winscript.text                  = "winscript"
+$winscript.width                 = 148
+$winscript.height                = 30
+$winscript.location              = New-Object System.Drawing.Point(16,102)
+$winscript.Font                  = New-Object System.Drawing.Font('Haettenschweiler',10)
 
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton))
-$Panel2.controls.AddRange(@($Label1,$tor))
+$Panel2.controls.AddRange(@($Label1,$tor,$winscript))
 
 # =====================================================
 # RMPIT Toolkit Script Runner
@@ -257,6 +264,11 @@ Run-RMPITScript "CTWT.ps1" $ToolsRepo
 function tor {
 Run-RMPITScript "tor.ps1" $TestingRepo
 }
+
+# winscript
+function winscript {
+Run-RMPITScript "winscript.ps1" $TestingRepo
+}
 #endregion
 
 
@@ -267,6 +279,7 @@ $InstallApps2Button.Add_Click({ apps2 })
 $CTWTButton.Add_Click({ CTWT })
 $ActivateOfficeButton.Add_Click({ ActivateOffice })
 $tor.Add_Click({ tor })
+$winscript.Add_Click({ winscript })
 
 
 
