@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.1"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.2"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -37,19 +37,19 @@ $ActivationLabel.height          = 10
 $ActivationLabel.location        = New-Object System.Drawing.Point(15,11)
 $ActivationLabel.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
-$ActivateWindows1                = New-Object system.Windows.Forms.Button
-$ActivateWindows1.text           = "Activate Windows 1"
-$ActivateWindows1.width          = 148
-$ActivateWindows1.height         = 30
-$ActivateWindows1.location       = New-Object System.Drawing.Point(12,52)
-$ActivateWindows1.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows1Button          = New-Object system.Windows.Forms.Button
+$ActivateWindows1Button.text     = "Activate Windows 1"
+$ActivateWindows1Button.width    = 148
+$ActivateWindows1Button.height   = 30
+$ActivateWindows1Button.location  = New-Object System.Drawing.Point(12,52)
+$ActivateWindows1Button.Font     = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$ActivateWindows2                = New-Object system.Windows.Forms.Button
-$ActivateWindows2.text           = "Activate Windows 2"
-$ActivateWindows2.width          = 148
-$ActivateWindows2.height         = 30
-$ActivateWindows2.location       = New-Object System.Drawing.Point(12,92)
-$ActivateWindows2.Font           = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$ActivateWindows2Button          = New-Object system.Windows.Forms.Button
+$ActivateWindows2Button.text     = "Activate Windows 2"
+$ActivateWindows2Button.width    = 148
+$ActivateWindows2Button.height   = 30
+$ActivateWindows2Button.location  = New-Object System.Drawing.Point(12,92)
+$ActivateWindows2Button.Font     = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $InstallerPanel                  = New-Object system.Windows.Forms.Panel
 $InstallerPanel.height           = 210
@@ -64,19 +64,19 @@ $InstallerLabel.height           = 10
 $InstallerLabel.location         = New-Object System.Drawing.Point(15,11)
 $InstallerLabel.Font             = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
 
-$InsallApps1                     = New-Object system.Windows.Forms.Button
-$InsallApps1.text                = "Apps 1"
-$InsallApps1.width               = 148
-$InsallApps1.height              = 30
-$InsallApps1.location            = New-Object System.Drawing.Point(12,52)
-$InsallApps1.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$InstallApps1Button              = New-Object system.Windows.Forms.Button
+$InstallApps1Button.text         = "Apps 1"
+$InstallApps1Button.width        = 148
+$InstallApps1Button.height       = 30
+$InstallApps1Button.location     = New-Object System.Drawing.Point(12,52)
+$InstallApps1Button.Font         = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$InsallApps2                     = New-Object system.Windows.Forms.Button
-$InsallApps2.text                = "Apps 2"
-$InsallApps2.width               = 148
-$InsallApps2.height              = 30
-$InsallApps2.location            = New-Object System.Drawing.Point(12,92)
-$InsallApps2.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$InstallApps2Button              = New-Object system.Windows.Forms.Button
+$InstallApps2Button.text         = "Apps 2"
+$InstallApps2Button.width        = 148
+$InstallApps2Button.height       = 30
+$InstallApps2Button.location     = New-Object System.Drawing.Point(12,92)
+$InstallApps2Button.Font         = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $Panel1                          = New-Object system.Windows.Forms.Panel
 $Panel1.height                   = 210
@@ -126,53 +126,10 @@ $tor.location                    = New-Object System.Drawing.Point(26,70)
 $tor.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2))
-$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1,$ActivateWindows2,$ActivateOfficeButton))
-$InstallerPanel.controls.AddRange(@($InstallerLabel,$InsallApps1,$InsallApps2))
+$ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
+$InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton))
 $Panel2.controls.AddRange(@($Label1,$tor))
-
-<#
-function Run-RMPITScript {
-
-param(
-    [string]$ScriptName,
-    [string]$RepoURL
-)
-
-$LocalFile = "$env:TEMP\$ScriptName"
-$WebFile   = "$RepoURL/$ScriptName"
-
-# Download script
-Invoke-WebRequest $WebFile -OutFile $LocalFile -UseBasicParsing
-
-$Extension = [System.IO.Path]::GetExtension($ScriptName)
-
-switch ($Extension) {
-
-    ".ps1" {
-        Start-Process powershell.exe -Verb RunAs -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"& '$LocalFile'; Remove-Item '$LocalFile' -Force`""
-    }
-
-    ".bat" {
-        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
-    }
-
-    ".cmd" {
-        Start-Process cmd.exe -Verb RunAs -ArgumentList "/c `"$LocalFile && del $LocalFile`""
-    }
-
-    default {
-        Start-Process $LocalFile -Verb RunAs
-    }
-
-}
-
-}
-
-$ToolkitRepo = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/Scripts"
-#>
-
-
 
 # =====================================================
 # RMPIT Toolkit Script Runner
@@ -260,29 +217,29 @@ $ToolsRepo     = "$ScriptsRoot/Tools"
 $TestingRepo     = "$ScriptsRoot/testing"
 
 #region Activation
-# Activation 1
+# Windows Activation 1
 function ActivateWindows1 {
 Run-RMPITScript "ActivateWindows1.ps1" $ActivationRepo
 }
 
-# Activation 2
+# Windows Activation 2
 function ActivateWindows2 {
 Run-RMPITScript "ActivateWindows2.ps1" $ActivationRepo
 }
 
-# attivateoffice.bat
-function activateoffice {
+# Offcie 365 Activation
+function ActivateOffice {
 Run-RMPITScript "Activate-Office.bat" $ActivationRepo
 }
 #endregion
 
 #region Installers
-# Installer 1
+# Apps Installer 1
 function apps1 {
 Run-RMPITScript "apps-install.ps1" $AppsRepo
 }
 
-# Installer 2
+# Apps Installer 2
 function apps2 {
 Run-RMPITScript "apps-install2.ps1" $AppsRepo
 }
@@ -303,12 +260,12 @@ Run-RMPITScript "tor.ps1" $TestingRepo
 #endregion
 
 
-$ActivateWindows1.Add_Click({ ActivateWindows1 })
-$ActivateWindows2.Add_Click({ ActivateWindows2 })
-$InsallApps1.Add_Click({ apps1 })
-$InsallApps2.Add_Click({ apps2 })
+$ActivateWindows1Button.Add_Click({ ActivateWindows1 })
+$ActivateWindows2Button.Add_Click({ ActivateWindows2 })
+$InstallApps1Button.Add_Click({ apps1 })
+$InstallApps2Button.Add_Click({ apps2 })
 $CTWTButton.Add_Click({ CTWT })
-$ActivateOfficeButton.Add_Click({ activateoffice })
+$ActivateOfficeButton.Add_Click({ ActivateOffice })
 $tor.Add_Click({ tor })
 
 
