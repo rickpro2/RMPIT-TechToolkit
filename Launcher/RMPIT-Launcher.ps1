@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.3"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.4"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -101,7 +101,7 @@ $CTWTButton.Font                 = New-Object System.Drawing.Font('Microsoft San
 $Panel2                          = New-Object system.Windows.Forms.Panel
 $Panel2.height                   = 172
 $Panel2.width                    = 300
-$Panel2.location                 = New-Object System.Drawing.Point(653,24)
+$Panel2.location                 = New-Object System.Drawing.Point(639,29)
 
 $Label1                          = New-Object system.Windows.Forms.Label
 $Label1.text                     = "Testing"
@@ -130,20 +130,35 @@ $winscript.text                  = "winscript"
 $winscript.width                 = 148
 $winscript.height                = 30
 $winscript.location              = New-Object System.Drawing.Point(16,102)
-$winscript.Font                  = New-Object System.Drawing.Font('Haettenschweiler',10)
+$winscript.Font                  = New-Object System.Drawing.Font('MV Boli',10)
 
 $TextBox1                        = New-Object system.Windows.Forms.TextBox
 $TextBox1.multiline              = $true
 $TextBox1.width                  = 279
 $TextBox1.height                 = 115
-$TextBox1.location               = New-Object System.Drawing.Point(181,51)
+$TextBox1.location               = New-Object System.Drawing.Point(335,75)
 $TextBox1.Font                   = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2,$TextBox1))
+$Panel3                          = New-Object system.Windows.Forms.Panel
+$Panel3.height                   = 172
+$Panel3.width                    = 300
+$Panel3.location                 = New-Object System.Drawing.Point(11,28)
+
+$Label2                          = New-Object system.Windows.Forms.Label
+$Label2.text                     = "Advance Users Only"
+$Label2.AutoSize                 = $true
+$Label2.width                    = 25
+$Label2.height                   = 10
+$Label2.location                 = New-Object System.Drawing.Point(13,14)
+$Label2.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',15,[System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold -bor [System.Drawing.FontStyle]::Underline))
+$Label2.ForeColor                = [System.Drawing.ColorTranslator]::FromHtml("#d0021b")
+
+$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2,$TextBox1,$Panel3))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton))
 $Panel2.controls.AddRange(@($Label1,$winscript))
+$Panel3.controls.AddRange(@($Label2))
 
 # =====================================================
 # RMPIT Toolkit Script Runner
