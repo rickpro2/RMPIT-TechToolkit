@@ -1,3 +1,66 @@
+# Requires administrator privileges to run successfully.
+
+# Function to pause the script at the end
+function Pause-Script {
+    Write-Host "`n"
+    Write-Host "----------------------------------------------------" -ForegroundColor Cyan
+    Write-Host "Script execution completed." -ForegroundColor Green
+    Write-Host "Press Enter to close this window..." -ForegroundColor Yellow
+    $null = Read-Host
+}
+
+# --- 1. Create a System Restore Point ---
+Write-Host "Attempting to create a System Restore Point..." -ForegroundColor Blue
+
+try {
+    # Check if System Restore is enabled on C: drive (optional but recommended check)
+    $sysRestoreStatus = Get-ComputerRestorePoint -LastStatus | Select-Object -ExpandProperty Status
+    if ($sysRestoreStatus -eq "Off") {
+        Write-Warning "System Restore is disabled on the C: drive. Cannot create a restore point."
+    }
+    else {
+        # The Checkpoint-Computer cmdlet is the recommended method for Windows 11
+        # A description with a dynamic timestamp is used for easy identification
+        $description = "Automated Maintenance - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+        Checkpoint-Computer -Description $description -RestorePointType "MODIFY_SETTINGS" -ErrorAction Stop
+        Write-Host "Successfully created System Restore Point: '$description'" -ForegroundColor Green
+    }
+}
+catch {
+    Write-Error "Failed to create a System Restore Point. Error: $_"
+}
+
+Write-Host "`n"
+
+# --- 2. Run Disk Clean-up ---
+Write-Host "Starting Disk Clean-up..." -ForegroundColor Blue
+
+try {
+    # Use cleanmgr.exe with /sagerun:1 to run a pre-configured set of cleanup options
+    # The /sagerun:1 command executes the cleanup with the settings saved previously via /sageset:1
+    # Note: You may need to run 'cleanmgr.exe /sageset:1' manually once to select desired items
+    $cleanmgrPath = "$env:SystemRoot\System32\cleanmgr.exe"
+    Start-Process $cleanmgrPath -ArgumentList "/sagerun:1" -Wait
+    Write-Host "Disk Clean-up process initiated and completed." -ForegroundColor Green
+}
+catch {
+    Write-Error "Failed to run Disk Clean-up. Ensure cleanmgr.exe is available and check permissions. Error: $_"
+}
+
+# --- 3. Pause the script at the end ---
+Pause-Script
+
+
+
+
+
+
+
+
+
+
+
+<#
 # Requires -RunAsAdministrator
 
 Write-Host "Starting System Maintenance Script..."
@@ -50,3 +113,5 @@ Start-Process cleanmgr.exe -ArgumentList "/sagerun:1" -Wait
 Write-Host "Disk Clean-up process initiated and completed."
 
 Write-Host "Script Finished."
+#>
+
