@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.6"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.6.1"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -147,7 +147,7 @@ $Label2.Font                     = New-Object System.Drawing.Font('Microsoft San
 $Label2.ForeColor                = [System.Drawing.ColorTranslator]::FromHtml("#d0021b")
 
 $SystemMaintenance               = New-Object system.Windows.Forms.Button
-$SystemMaintenance.text          = "SystemMaintenance"
+$SystemMaintenance.text          = "System Maintenance"
 $SystemMaintenance.width         = 148
 $SystemMaintenance.height        = 30
 $SystemMaintenance.location      = New-Object System.Drawing.Point(12,97)
@@ -288,11 +288,9 @@ Run-RMPITScript "CTWT.ps1" $ToolsRepo
 
 # SystemMaintenance
 # Runs a system restore point and run Disk Clean-up
-function CTWT {
+function SystemMaintenance {
 Run-RMPITScript "SystemMaintenance.ps1" $ToolsRepo
 }
-
-SystemMaintenance
 #endregion
 
 #region testing
