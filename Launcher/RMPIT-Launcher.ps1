@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.6.1"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.6.3"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -122,7 +122,7 @@ $tor                             = New-Object system.Windows.Forms.Button
 $tor.text                        = "The Onion Browser"
 $tor.width                       = 148
 $tor.height                      = 30
-$tor.location                    = New-Object System.Drawing.Point(12,132)
+$tor.location                    = New-Object System.Drawing.Point(12,171)
 $tor.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $winscript                       = New-Object system.Windows.Forms.Button
@@ -153,9 +153,16 @@ $SystemMaintenance.height        = 30
 $SystemMaintenance.location      = New-Object System.Drawing.Point(12,97)
 $SystemMaintenance.Font          = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
+$Button1                         = New-Object system.Windows.Forms.Button
+$Button1.text                    = "Apps 3"
+$Button1.width                   = 148
+$Button1.height                  = 30
+$Button1.location                = New-Object System.Drawing.Point(12,131)
+$Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2,$Panel3))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
-$InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor))
+$InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor,$Button1))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance))
 $Panel2.controls.AddRange(@($Label1,$winscript))
 $Panel3.controls.AddRange(@($Label2))
@@ -278,6 +285,10 @@ function tor {
 Run-RMPITScript "tor.ps1" $AppsRepo
 }
 
+# Apps Installer 3
+function apps3 {
+Run-RMPITScript "apps-install3.ps1" $AppsRepo
+}
 #endregion
 
 #region Tools
@@ -311,6 +322,7 @@ $ActivateOfficeButton.Add_Click({ ActivateOffice })
 $tor.Add_Click({ tor })
 $winscript.Add_Click({ winscript })
 $SystemMaintenance.Add_Click({ SystemMaintenance })
+$Button1.Add_Click({ apps3 })
 
 
 
