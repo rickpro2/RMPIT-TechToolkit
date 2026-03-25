@@ -3,53 +3,11 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "SilentlyContinue"
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { Write-Host "This script requires administrator privileges."`n"Please run WinScript as an administrator." -ForegroundColor Red; pause ; exit }
-Write-Host "-- Creating a restore point" -ForegroundColor Green
-Enable-ComputerRestore -Drive $env:SystemDrive ; Checkpoint-Computer -Description "RestorePoint1" -RestorePointType "MODIFY_SETTINGS"
 Write-Host "-- Updating Winget" -ForegroundColor Green
 $v = winget -v; if ([version]($v.TrimStart('v')) -lt [version]'1.7.0') { Write-Output '-- - Old Winget version detected, upgrading.'; Set-Location $env:USERPROFILE; Invoke-WebRequest -Uri 'https://aka.ms/getwinget' -OutFile 'winget.msixbundle'; Add-AppPackage -ForceApplicationShutdown .\winget.msixbundle; Remove-Item .\winget.msixbundle } else { Write-Output 'Winget is already up to date, skipping upgrade.' }
-Write-Host '-- Running Disk Clean-up' -ForegroundColor Green
-cleanmgr /verylowdisk /sagerun:5
-Write-Host '-- Deleting Temp files' -ForegroundColor Green
-Remove-Item -Path "C:\Windows\Temp\*" -Recurse -Force
-Remove-Item -Path "C:\Windows\Prefetch\*" -Recurse -Force
-Write-Host '-- Emptying Recycle Bin' -ForegroundColor Green
-$bin = (New-Object -ComObject Shell.Application).NameSpace(10); $bin.items() | ForEach { Write-Host "Deleting $($_.Name) from Recycle Bin"; Remove-Item $_.Path -Recurse -Force }
-Write-Host '-- Clearing Browser History' -ForegroundColor Green
-Remove-Item -Path "$env:LocalAppData\Google\Chrome\User Data\Default\History" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\Google\Chrome\User Data\Default\Cache\*" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\Google\Chrome\User Data\Default\Cookies" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\Microsoft\Edge\User Data\Default\History" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\Microsoft\Edge\User Data\Default\Cache\*" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\Microsoft\Edge\User Data\Default\Cookies" -Recurse -Force
-Remove-Item -Path "$env:AppData\Mozilla\Firefox\Profiles\*.default\places.sqlite" -Recurse -Force
-Remove-Item -Path "$env:AppData\Mozilla\Firefox\Profiles\*.default\cache2\entries\*" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\BraveSoftware\Brave-Browser\User Data\Default\History" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\BraveSoftware\Brave-Browser\User Data\Default\Cache\*" -Recurse -Force
-Remove-Item -Path "$env:LocalAppData\BraveSoftware\Brave-Browser\User Data\Default\Cookies" -Recurse -Force
-Write-Host '-- Resetting Network' -ForegroundColor Green
-ipconfig /flushdns
-ipconfig /release | Out-Null
-ipconfig /renew | Out-Null
-Write-Host '-- Uninstalling third-party apps' -ForegroundColor Green
-@("*DropboxOEM*","*BingSearch*","*RandomSaladGamesLLC*","*UserExperienceImprovementProgram*","*McAfee*","ShazamEntertainmentLtd.Shazam","ClearChannelRadioDigital.iHeartRadio","SpotifyAB.SpotifyMusic","*EclipseManager*","*ActiproSoftwareLLC*","*AdobeSystemsIncorporated.AdobePhotoshopExpress*","*Duolingo-LearnLanguagesforFree*","*PandoraMediaInc*","*CandyCrush*","*BubbleWitch3Saga*","*Wunderlist*","*Flipboard*","*Twitter*","*Facebook*","*Royal Revolt*","*Sway*","*Speed Test*","*Dolby*","*Viber*","*ACGMediaPlayer*","*Netflix*","*OneCalendar*","*LinkedInForWindows*","*HiddenCityMysteryofShadows*","*Hulu*","*HiddenCity*","*AdobePhotoshopExpress*") | ForEach-Object { $pkg = Get-AppxPackage $_; if ($pkg) { $pkg | Remove-AppxPackage; Write-Host "Removed: $_" } }
-Write-Host '-- Uninstalling Microsoft apps' -ForegroundColor Green
-@("Microsoft.ZuneMusic","Microsoft.Whiteboard","Microsoft.Office.Lens","Microsoft.News","Microsoft.GetHelp","Microsoft.BingTravel","Microsoft.BingHealthAndFitness","Microsoft.BingFoodAndDrink","Microsoft.BingTranslator","Microsoft.AppConnector","MicrosoftCorporationII.MicrosoftFamily","*QuickAssist*","Microsoft.OutlookForWindows","Clipchamp.Clipchamp","Microsoft.3DBuilder","Microsoft.Microsoft3DViewer","Microsoft.BingWeather","Microsoft.BingSports","Microsoft.BingFinance","Microsoft.MicrosoftOfficeHub","Microsoft.BingNews","Microsoft.Office.OneNote","Microsoft.Office.Sway","Microsoft.WindowsPhone","Microsoft.CommsPhone","Microsoft.YourPhone","Microsoft.Getstarted","Microsoft.549981C3F5F10","Microsoft.Messaging","Microsoft.WindowsSoundRecorder","Microsoft.MixedReality.Portal","Microsoft.WindowsFeedbackHub","Microsoft.WindowsAlarms","Microsoft.MSPaint","Microsoft.WindowsMaps","Microsoft.MinecraftUWP","Microsoft.People","Microsoft.Wallet","Microsoft.Print3D","Microsoft.OneConnect","Microsoft.MicrosoftSolitaireCollection","Microsoft.MicrosoftStickyNotes","microsoft.windowscommunicationsapps","Microsoft.SkypeApp","Microsoft.GroupMe10","MSTeams","Microsoft.Todos") | ForEach-Object { $pkg = Get-AppxPackage $_; if ($pkg) { $pkg | Remove-AppxPackage; Write-Host "Removed: $_" } }
-Write-Host '-- Uninstalling Xbox' -ForegroundColor Green
-@("Microsoft.XboxApp","Microsoft.Xbox.TCUI","Microsoft.XboxGamingOverlay","Microsoft.XboxGameOverlay","Microsoft.XboxIdentityProvider","Microsoft.XboxSpeechToTextOverlay","Microsoft.GamingApp") | ForEach-Object { $pkg = Get-AppxPackage $_ -AllUsers; if ($pkg) { $pkg | Remove-AppxPackage -AllUsers; Write-Host "Removed: $_" } }
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.XboxSpeechToTextOverlay_8wekyb3d8bbwe" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.Xbox.TCUI_8wekyb3d8bbwe" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.XboxApp_8wekyb3d8bbwe" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.XboxGamingOverlay_8wekyb3d8bbwe" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.XboxGameOverlay_8wekyb3d8bbwe" /f
-Set-Service -Name "XblAuthManager" -StartupType Manual
-Set-Service -Name "XblGameSave" -StartupType Manual
-Set-Service -Name "XboxGipSvc" -StartupType Manual
-Set-Service -Name "XboxNetApiSvc" -StartupType Manual
-Write-Host "-- Running MAS" -ForegroundColor Green
-irm "https://get.activated.win" | iex
 Write-Host -- Installing these apps: 
-Write-Host -- KDE.Falkon LibreWolf.LibreWolf Alex313031.Thorium Waterfox.Waterfox AgileBits.1Password AnyDesk.AnyDesk Piriform.CCleaner HandBrake.HandBrake Plex.Plex Discord.Discord Telegram.TelegramDesktop Zoom.Zoom Adobe.Acrobat.Reader.64-bit
-Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue | Start-Process explorer.exe | Start-Process cmd.exe -ArgumentList '/k "winget install KDE.Falkon LibreWolf.LibreWolf Alex313031.Thorium Waterfox.Waterfox AgileBits.1Password AnyDesk.AnyDesk Piriform.CCleaner HandBrake.HandBrake Plex.Plex Discord.Discord Telegram.TelegramDesktop Zoom.Zoom Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements --force"'
+Write-Host -- Google.Chrome VideoLAN.VLC Zoom.Zoom Adobe.Acrobat.Reader.64-bit Microsoft.Office
+Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue | Start-Process explorer.exe | Start-Process cmd.exe -ArgumentList '/k "winget install Google.Chrome VideoLAN.VLC Zoom.Zoom Adobe.Acrobat.Reader.64-bit Microsoft.Office --accept-source-agreements --accept-package-agreements --force"'
 # Pause the script
 Pause
 # Exit the script
