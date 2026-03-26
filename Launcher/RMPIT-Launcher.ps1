@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.6.3"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.7"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -125,13 +125,6 @@ $tor.height                      = 30
 $tor.location                    = New-Object System.Drawing.Point(12,171)
 $tor.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$winscript                       = New-Object system.Windows.Forms.Button
-$winscript.text                  = "winscript"
-$winscript.width                 = 148
-$winscript.height                = 30
-$winscript.location              = New-Object System.Drawing.Point(16,102)
-$winscript.Font                  = New-Object System.Drawing.Font('MV Boli',10)
-
 $Panel3                          = New-Object system.Windows.Forms.Panel
 $Panel3.height                   = 172
 $Panel3.width                    = 300
@@ -160,11 +153,18 @@ $Button1.height                  = 30
 $Button1.location                = New-Object System.Drawing.Point(12,131)
 $Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
+$Button2                         = New-Object system.Windows.Forms.Button
+$Button2.text                    = "Time"
+$Button2.width                   = 148
+$Button2.height                  = 30
+$Button2.location                = New-Object System.Drawing.Point(12,142)
+$Button2.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2,$Panel3))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor,$Button1))
-$Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance))
-$Panel2.controls.AddRange(@($Label1,$winscript))
+$Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance,$Button2))
+$Panel2.controls.AddRange(@($Label1))
 $Panel3.controls.AddRange(@($Label2))
 
 # =====================================================
@@ -280,15 +280,16 @@ function apps2 {
 Run-RMPITScript "apps-install2.ps1" $AppsRepo
 }
 
-# The Onion Browser
-function tor {
-Run-RMPITScript "tor.ps1" $AppsRepo
-}
-
 # Apps Installer 3
 function apps3 {
 Run-RMPITScript "apps-install3.ps1" $AppsRepo
 }
+
+# The Onion Browser
+function OnionBrowser {
+Run-RMPITScript "tor.ps1" $AppsRepo
+}
+
 #endregion
 
 #region Tools
@@ -301,6 +302,12 @@ Run-RMPITScript "CTWT.ps1" $ToolsRepo
 # Runs a system restore point and run Disk Clean-up
 function SystemMaintenance {
 Run-RMPITScript "SystemMaintenance.ps1" $ToolsRepo
+}
+
+# Time
+# Put's Seconds on time
+function time {
+Run-RMPITScript "time.ps1" $ToolsRepo
 }
 #endregion
 
@@ -319,10 +326,10 @@ $InstallApps1Button.Add_Click({ apps1 })
 $InstallApps2Button.Add_Click({ apps2 })
 $CTWTButton.Add_Click({ CTWT })
 $ActivateOfficeButton.Add_Click({ ActivateOffice })
-$tor.Add_Click({ tor })
-$winscript.Add_Click({ winscript })
+$tor.Add_Click({ OnionBrowser })
 $SystemMaintenance.Add_Click({ SystemMaintenance })
 $Button1.Add_Click({ apps3 })
+$Button2.Add_Click({ time })
 
 
 
