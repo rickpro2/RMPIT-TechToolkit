@@ -160,11 +160,18 @@ $Button2.height                  = 30
 $Button2.location                = New-Object System.Drawing.Point(12,142)
 $Button2.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
+$Tron                            = New-Object system.Windows.Forms.Button
+$Tron.text                       = "Tron Script"
+$Tron.width                      = 148
+$Tron.height                     = 30
+$Tron.location                   = New-Object System.Drawing.Point(19,85)
+$Tron.Font                       = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2,$Panel3))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor,$Button1))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance,$Button2))
-$Panel2.controls.AddRange(@($Label1))
+$Panel2.controls.AddRange(@($Label1,$Tron))
 $Panel3.controls.AddRange(@($Label2))
 
 # =====================================================
@@ -309,6 +316,59 @@ Run-RMPITScript "SystemMaintenance.ps1" $ToolsRepo
 function time {
 Run-RMPITScript "time.ps1" $ToolsRepo
 }
+
+# Tron Script
+
+function Run-Tron {
+
+    # Force TLS
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+    # Install location (persistent, not temp)
+    $TronDir = "C:\ProgramData\RMPIT\tron"
+    $ZipPath = "$env:TEMP\tron.zip"
+
+    # ⚠️ You should periodically update this URL
+    $TronURL = "https://bmrf.org/repos/tron/Tron%20v12.0.8%20(2025-01-09).exe"
+
+    try {
+        Write-Host "Downloading Tron..."
+        Invoke-WebRequest $TronURL -OutFile $ZipPath -UseBasicParsing
+    }
+    catch {
+        [System.Windows.Forms.MessageBox]::Show("Failed to download Tron.","Error")
+        return
+    }
+
+    # Clean old install
+    if (Test-Path $TronDir) {
+        Remove-Item $TronDir -Recurse -Force
+    }
+
+    # Extract
+    Expand-Archive -Path $ZipPath -DestinationPath "C:\ProgramData\RMPIT" -Force
+
+    # Find extracted folder
+    $Extracted = Get-ChildItem "C:\ProgramData\RMPIT" -Directory | Where-Object { $_.Name -like "Tron*" } | Select-Object -First 1
+
+    if (!$Extracted) {
+        [System.Windows.Forms.MessageBox]::Show("Extraction failed.","Error")
+        return
+    }
+
+    Rename-Item $Extracted.FullName $TronDir -Force
+
+    # Run Tron
+    $TronBat = Join-Path $TronDir "tron.bat"
+
+    if (Test-Path $TronBat) {
+        Start-Process -FilePath $TronBat -WorkingDirectory $TronDir -Verb RunAs
+    }
+    else {
+        [System.Windows.Forms.MessageBox]::Show("tron.bat not found.","Error")
+    }
+
+}
 #endregion
 
 #region testing
@@ -330,6 +390,7 @@ $tor.Add_Click({ OnionBrowser })
 $SystemMaintenance.Add_Click({ SystemMaintenance })
 $Button1.Add_Click({ apps3 })
 $Button2.Add_Click({ time })
+$Tron.Add_Click({ Run-Tron })
 
 
 
