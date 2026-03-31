@@ -317,22 +317,31 @@ function time {
 Run-RMPITScript "time.ps1" $ToolsRepo
 }
 
-# Tron Script
 
+#endregion
+
+#region testing
+# Tron Script
 function Run-Tron {
 
-    # Force TLS
+    # Ensure TLS
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-    # Install location (persistent, not temp)
     $TronDir = "C:\ProgramData\RMPIT\tron"
     $ZipPath = "$env:TEMP\tron.zip"
+    $TronURL = "https://www.rickieproctor.com/Tronv12_0_8.zip"
 
-    # ⚠️ You should periodically update this URL
-    $TronURL = "https://bmrf.org/repos/tron/Tron%20v12.0.8%20(2025-01-09).exe"
+    # Optional warning
+    $result = [System.Windows.Forms.MessageBox]::Show(
+        "TronScript can take several hours to complete.`n`nContinue?",
+        "Run TronScript",
+        [System.Windows.Forms.MessageBoxButtons]::YesNo,
+        [System.Windows.Forms.MessageBoxIcon]::Warning
+    )
+
+    if ($result -ne "Yes") { return }
 
     try {
-        Write-Host "Downloading Tron..."
         Invoke-WebRequest $TronURL -OutFile $ZipPath -UseBasicParsing
     }
     catch {
@@ -340,23 +349,35 @@ function Run-Tron {
         return
     }
 
-    # Clean old install
+    # Clean old version
     if (Test-Path $TronDir) {
         Remove-Item $TronDir -Recurse -Force
     }
 
     # Extract
-    Expand-Archive -Path $ZipPath -DestinationPath "C:\ProgramData\RMPIT" -Force
-
-    # Find extracted folder
-    $Extracted = Get-ChildItem "C:\ProgramData\RMPIT" -Directory | Where-Object { $_.Name -like "Tron*" } | Select-Object -First 1
-
-    if (!$Extracted) {
+    try {
+        Expand-Archive -Path $ZipPath -DestinationPath "C:\ProgramData\RMPIT" -Force
+    }
+    catch {
         [System.Windows.Forms.MessageBox]::Show("Extraction failed.","Error")
         return
     }
 
+    # Detect extracted folder
+    $Extracted = Get-ChildItem "C:\ProgramData\RMPIT" -Directory |
+        Where-Object { $_.Name -like "Tron*" } |
+        Select-Object -First 1
+
+    if (!$Extracted) {
+        [System.Windows.Forms.MessageBox]::Show("Could not find extracted Tron folder.","Error")
+        return
+    }
+
+    # Normalize folder name
     Rename-Item $Extracted.FullName $TronDir -Force
+
+    # Cleanup zip
+    Remove-Item $ZipPath -Force -ErrorAction SilentlyContinue
 
     # Run Tron
     $TronBat = Join-Path $TronDir "tron.bat"
@@ -367,15 +388,6 @@ function Run-Tron {
     else {
         [System.Windows.Forms.MessageBox]::Show("tron.bat not found.","Error")
     }
-
-}
-#endregion
-
-#region testing
-
-# winscript
-function winscript {
-Run-RMPITScript "winscript.ps1" $TestingRepo
 }
 #endregion
 
