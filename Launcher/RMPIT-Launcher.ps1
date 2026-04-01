@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.2.7"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.0"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -160,18 +160,25 @@ $Button2.height                  = 30
 $Button2.location                = New-Object System.Drawing.Point(12,142)
 $Button2.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Tron                            = New-Object system.Windows.Forms.Button
-$Tron.text                       = "Tron Script"
-$Tron.width                      = 148
-$Tron.height                     = 30
-$Tron.location                   = New-Object System.Drawing.Point(19,85)
-$Tron.Font                       = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$InstallTron                     = New-Object system.Windows.Forms.Button
+$InstallTron.text                = "Install / Update Tron"
+$InstallTron.width               = 148
+$InstallTron.height              = 30
+$InstallTron.location            = New-Object System.Drawing.Point(19,85)
+$InstallTron.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$RunTron                         = New-Object system.Windows.Forms.Button
+$RunTron.text                    = "Run Tron"
+$RunTron.width                   = 148
+$RunTron.height                  = 30
+$RunTron.location                = New-Object System.Drawing.Point(19,126)
+$RunTron.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2,$Panel3))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor,$Button1))
 $Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance,$Button2))
-$Panel2.controls.AddRange(@($Label1,$Tron))
+$Panel2.controls.AddRange(@($Label1,$InstallTron,$RunTron))
 $Panel3.controls.AddRange(@($Label2))
 
 # =====================================================
@@ -391,6 +398,83 @@ function Run-Tron {
 }
 #endregion
 
+#region Tron
+ # Install / Update Tronn Script
+function Install-Tron {
+
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+    $BaseDir = "C:\ProgramData\RMPIT"
+    $TronDir = "$BaseDir\tron"
+    $ZipPath = "$env:TEMP\tron.zip"
+    $TronURL = "https://www.rickieproctor.com/Tronv12_0_8.zip"
+
+    try {
+        Invoke-WebRequest $TronURL -OutFile $ZipPath -UseBasicParsing
+    }
+    catch {
+        [System.Windows.Forms.MessageBox]::Show("Failed to download Tron.","Error")
+        return
+    }
+
+    # Remove old version
+    if (Test-Path $TronDir) {
+        Remove-Item $TronDir -Recurse -Force
+    }
+
+    # Extract
+    try {
+        Expand-Archive -Path $ZipPath -DestinationPath $BaseDir -Force
+    }
+    catch {
+        [System.Windows.Forms.MessageBox]::Show("Extraction failed.","Error")
+        return
+    }
+
+    # Get newest extracted folder
+    $Extracted = Get-ChildItem $BaseDir -Directory |
+        Sort-Object LastWriteTime -Descending |
+        Select-Object -First 1
+
+    if (!$Extracted) {
+        [System.Windows.Forms.MessageBox]::Show("Tron folder not found.","Error")
+        return
+    }
+
+    Rename-Item $Extracted.FullName $TronDir -Force
+
+    Remove-Item $ZipPath -Force -ErrorAction SilentlyContinue
+
+    [System.Windows.Forms.MessageBox]::Show("Tron installed/updated successfully.","Done")
+}
+
+
+
+
+# Run  Script
+function Run-Tron {
+
+    $TronDir = "C:\ProgramData\RMPIT\tron"
+    $TronBat = Join-Path $TronDir "tron.bat"
+
+    if (!(Test-Path $TronBat)) {
+        [System.Windows.Forms.MessageBox]::Show("Tron is not installed. Please install it first.","Missing")
+        return
+    }
+
+    $result = [System.Windows.Forms.MessageBox]::Show(
+        "TronScript can take several hours to complete.`n`nContinue?",
+        "Run TronScript",
+        [System.Windows.Forms.MessageBoxButtons]::YesNo,
+        [System.Windows.Forms.MessageBoxIcon]::Warning
+    )
+
+    if ($result -ne "Yes") { return }
+
+    Start-Process -FilePath $TronBat -WorkingDirectory $TronDir -Verb RunAs
+}
+#endregion
+
 
 $ActivateWindows1Button.Add_Click({ ActivateWindows1 })
 $ActivateWindows2Button.Add_Click({ ActivateWindows2 })
@@ -402,7 +486,8 @@ $tor.Add_Click({ OnionBrowser })
 $SystemMaintenance.Add_Click({ SystemMaintenance })
 $Button1.Add_Click({ apps3 })
 $Button2.Add_Click({ time })
-$Tron.Add_Click({ Run-Tron })
+$InstallTron.Add_Click({ Install-Tron })
+$RunTron.Add_Click({ Run-Tro })
 
 
 
