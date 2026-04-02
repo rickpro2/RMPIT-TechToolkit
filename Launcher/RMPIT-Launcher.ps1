@@ -78,10 +78,10 @@ $InstallApps2Button.height       = 30
 $InstallApps2Button.location     = New-Object System.Drawing.Point(12,92)
 $InstallApps2Button.Font         = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Panel1                          = New-Object system.Windows.Forms.Panel
-$Panel1.height                   = 210
-$Panel1.width                    = 300
-$Panel1.location                 = New-Object System.Drawing.Point(653,225)
+$ToolsPanel                      = New-Object system.Windows.Forms.Panel
+$ToolsPanel.height               = 210
+$ToolsPanel.width                = 300
+$ToolsPanel.location             = New-Object System.Drawing.Point(653,225)
 
 $ToolsLabel                      = New-Object system.Windows.Forms.Label
 $ToolsLabel.text                 = "Tools"
@@ -98,10 +98,10 @@ $CTWTButton.height               = 30
 $CTWTButton.location             = New-Object System.Drawing.Point(12,52)
 $CTWTButton.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$Panel2                          = New-Object system.Windows.Forms.Panel
-$Panel2.height                   = 172
-$Panel2.width                    = 300
-$Panel2.location                 = New-Object System.Drawing.Point(653,28)
+$TestingPanel                    = New-Object system.Windows.Forms.Panel
+$TestingPanel.height             = 172
+$TestingPanel.width              = 300
+$TestingPanel.location           = New-Object System.Drawing.Point(653,28)
 
 $Label1                          = New-Object system.Windows.Forms.Label
 $Label1.text                     = "Testing"
@@ -174,11 +174,11 @@ $RunTron.height                  = 30
 $RunTron.location                = New-Object System.Drawing.Point(19,126)
 $RunTron.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
-$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$Panel1,$Panel2,$Panel3))
+$RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$ToolsPanel,$TestingPanel,$Panel3))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor,$Button1))
-$Panel1.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance,$Button2))
-$Panel2.controls.AddRange(@($Label1,$InstallTron,$RunTron))
+$ToolsPanel.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance,$Button2))
+$TestingPanel.controls.AddRange(@($Label1,$InstallTron,$RunTron))
 $Panel3.controls.AddRange(@($Label2))
 
 # =====================================================
@@ -327,75 +327,8 @@ Run-RMPITScript "time.ps1" $ToolsRepo
 
 #endregion
 
-#region testing
-# Tron Script
-function Run-Tron {
+#region Testing
 
-    # Ensure TLS
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
-    $TronDir = "C:\ProgramData\RMPIT\tron"
-    $ZipPath = "$env:TEMP\tron.zip"
-    $TronURL = "https://www.rickieproctor.com/Tronv12_0_8.zip"
-
-    # Optional warning
-    $result = [System.Windows.Forms.MessageBox]::Show(
-        "TronScript can take several hours to complete.`n`nContinue?",
-        "Run TronScript",
-        [System.Windows.Forms.MessageBoxButtons]::YesNo,
-        [System.Windows.Forms.MessageBoxIcon]::Warning
-    )
-
-    if ($result -ne "Yes") { return }
-
-    try {
-        Invoke-WebRequest $TronURL -OutFile $ZipPath -UseBasicParsing
-    }
-    catch {
-        [System.Windows.Forms.MessageBox]::Show("Failed to download Tron.","Error")
-        return
-    }
-
-    # Clean old version
-    if (Test-Path $TronDir) {
-        Remove-Item $TronDir -Recurse -Force
-    }
-
-    # Extract
-    try {
-        Expand-Archive -Path $ZipPath -DestinationPath "C:\ProgramData\RMPIT" -Force
-    }
-    catch {
-        [System.Windows.Forms.MessageBox]::Show("Extraction failed.","Error")
-        return
-    }
-
-    # Detect extracted folder
-    $Extracted = Get-ChildItem "C:\ProgramData\RMPIT" -Directory |
-        Where-Object { $_.Name -like "Tron*" } |
-        Select-Object -First 1
-
-    if (!$Extracted) {
-        [System.Windows.Forms.MessageBox]::Show("Could not find extracted Tron folder.","Error")
-        return
-    }
-
-    # Normalize folder name
-    Rename-Item $Extracted.FullName $TronDir -Force
-
-    # Cleanup zip
-    Remove-Item $ZipPath -Force -ErrorAction SilentlyContinue
-
-    # Run Tron
-    $TronBat = Join-Path $TronDir "tron.bat"
-
-    if (Test-Path $TronBat) {
-        Start-Process -FilePath $TronBat -WorkingDirectory $TronDir -Verb RunAs
-    }
-    else {
-        [System.Windows.Forms.MessageBox]::Show("tron.bat not found.","Error")
-    }
-}
 #endregion
 
 #region Tron
