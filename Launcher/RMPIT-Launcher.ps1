@@ -407,7 +407,7 @@ function Install-Tron {
     $BaseDir = "C:\ProgramData\RMPIT"
     $TronDir = "$BaseDir\tron"
     $ZipPath = "$env:TEMP\tron.zip"
-    $TronURL = "https://www.rickieproctor.com/Tronv12_0_8.zip"
+    $TronURL = "https://www.rickieproctor.com/Tronv12_0_5.zip"
 
     try {
         Invoke-WebRequest $TronURL -OutFile $ZipPath -UseBasicParsing
