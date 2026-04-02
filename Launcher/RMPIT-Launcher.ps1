@@ -487,7 +487,7 @@ $SystemMaintenance.Add_Click({ SystemMaintenance })
 $Button1.Add_Click({ apps3 })
 $Button2.Add_Click({ time })
 $InstallTron.Add_Click({ Install-Tron })
-$RunTron.Add_Click({ Run-Tro })
+$RunTron.Add_Click({ Run-Tron })
 
 
 
