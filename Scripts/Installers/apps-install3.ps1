@@ -6,8 +6,8 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 Write-Host "-- Updating Winget" -ForegroundColor Green
 $v = winget -v; if ([version]($v.TrimStart('v')) -lt [version]'1.7.0') { Write-Output '-- - Old Winget version detected, upgrading.'; Set-Location $env:USERPROFILE; Invoke-WebRequest -Uri 'https://aka.ms/getwinget' -OutFile 'winget.msixbundle'; Add-AppPackage -ForceApplicationShutdown .\winget.msixbundle; Remove-Item .\winget.msixbundle } else { Write-Output 'Winget is already up to date, skipping upgrade.' }
 Write-Host -- Installing these apps: 
-Write-Host -- Google.Chrome RustDesk.RustDesk VideoLAN.VLC Zoom.Zoom Adobe.Acrobat.Reader.64-bit Microsoft.Office RARLab.WinRAR
-Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue | Start-Process explorer.exe | Start-Process cmd.exe -ArgumentList '/k "winget install Google.Chrome RustDesk.RustDesk VideoLAN.VLC Zoom.Zoom Adobe.Acrobat.Reader.64-bit Microsoft.Office RARLab.WinRAR --accept-source-agreements --accept-package-agreements --force"'
+Write-Host -- Google.Chrome RARLab.WinRAR VideoLAN.VLC Zoom.Zoom Adobe.Acrobat.Reader.64-bit RustDesk.RustDesk Microsoft.Office
+Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue | Start-Process explorer.exe | Start-Process cmd.exe -ArgumentList '/k "winget install Google.Chrome RARLab.WinRAR VideoLAN.VLC Zoom.Zoom Adobe.Acrobat.Reader.64-bit RustDesk.RustDesk Microsoft.Office --accept-source-agreements --accept-package-agreements --force"'
 # Pause the script
 Pause
 # Exit the script
