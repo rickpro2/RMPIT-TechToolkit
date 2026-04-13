@@ -10,7 +10,7 @@ Install applications silently with accepted agreements
 Write-Host "Starting application installations..."
 
 winget install --id Google.Chrome --silent --accept-source-agreements --accept-package-agreements --scope machine
-winget install --id Brave.Brave --silent --accept-source-agreements --accept-package-agreements --scope machine
+# winget install --id Brave.Brave --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id VideoLAN.VLC --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id 7zip.7zip --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Notepad++.Notepad++ --silent --accept-source-agreements --accept-package-agreements --scope machine
@@ -30,6 +30,5 @@ winget install --id Discord.Discord --silent --accept-source-agreements --accept
 winget install --id Surfshark.Surfshark --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id MTSD.AllDup --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Rufus.Rufus --silent --accept-source-agreements --accept-package-agreements --scope machine
-winget install --id RARLab.WinRAR --silent --accept-source-agreements --accept-package-agreements --scope machine
 
 Write-Host "Installation script finished."

@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.0"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.3"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
