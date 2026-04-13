@@ -15,3 +15,9 @@ winget install --id sonnylab.chatgpt --silent --accept-source-agreements --accep
 winget install --id Open-Shell.Open-Shell-Menu --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id RustDesk.RustDesk --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id RARLab.WinRAR --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Telegram.TelegramDesktop --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Discord.Discord --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Surfshark.Surfshark --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id MTSD.AllDup --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Rufus.Rufus --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id RARLab.WinRAR --silent --accept-source-agreements --accept-package-agreements --scope machine
