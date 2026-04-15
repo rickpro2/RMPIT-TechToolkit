@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.2"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.3"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -156,7 +156,7 @@ $Button1.location                = New-Object System.Drawing.Point(12,131)
 $Button1.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
 $Button2                         = New-Object system.Windows.Forms.Button
-$Button2.text                    = "Time"
+$Button2.text                    = "Time & Auto Arrange"
 $Button2.width                   = 148
 $Button2.height                  = 30
 $Button2.location                = New-Object System.Drawing.Point(12,142)

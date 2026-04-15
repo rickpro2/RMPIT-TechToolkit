@@ -45,9 +45,6 @@ Start-Process -FilePath "explorer.exe"
 
 
 
-
-
-
 # **********************************************
 # Powershell Script to Turn On or Off
 # "Auto arrange icons" and "Align icons to grid"
