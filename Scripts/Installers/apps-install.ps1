@@ -19,16 +19,23 @@ winget install --id Adobe.Acrobat.Reader.64-bit --silent --accept-source-agreeme
 winget install --id Microsoft.Office --silent --accept-source-agreements --accept-package-agreements --scope machine
 # winget install --id Malwarebytes.Malwarebytes --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Romanitho.Winget-AutoUpdate --silent --accept-source-agreements --accept-package-agreements --scope machine
-# winget install --id Romanitho.WiGUI --silent --accept-source-agreements --accept-package-agreements --scope machine
-winget install --id Discord.Discord --silent --accept-source-agreements --accept-package-agreements --scope machine
+winget install --id Romanitho.WiGUI --silent --accept-source-agreements --accept-package-agreements --scope machine
+# winget install --id Discord.Discord --silent --accept-source-agreements --accept-package-agreements --scope machine
 # winget install --id sonnylab.chatgpt --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Open-Shell.Open-Shell-Menu --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id RustDesk.RustDesk --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id RARLab.WinRAR --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Telegram.TelegramDesktop --silent --accept-source-agreements --accept-package-agreements --scope machine
-winget install --id Discord.Discord --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Surfshark.Surfshark --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id MTSD.AllDup --silent --accept-source-agreements --accept-package-agreements --scope machine
 winget install --id Rufus.Rufus --silent --accept-source-agreements --accept-package-agreements --scope machine
 
 Write-Host "Installation script finished."
+
+# Pause the script
+Pause
+# Exit the script
+Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+Start-Process explorer.exe
+exit
+

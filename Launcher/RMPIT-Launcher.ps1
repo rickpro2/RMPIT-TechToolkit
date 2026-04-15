@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.3"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.2"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -75,6 +75,8 @@ $InstallApps2Button              = New-Object system.Windows.Forms.Button
 $InstallApps2Button.text         = "Apps 2"
 $InstallApps2Button.width        = 148
 $InstallApps2Button.height       = 30
+$InstallApps2Button.visible      = $false
+$InstallApps2Button.enabled      = $false
 $InstallApps2Button.location     = New-Object System.Drawing.Point(12,92)
 $InstallApps2Button.Font         = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
@@ -96,7 +98,7 @@ $CTWTButton.text                 = "Chris Titus Windows Tool"
 $CTWTButton.width                = 148
 $CTWTButton.height               = 30
 $CTWTButton.location             = New-Object System.Drawing.Point(12,52)
-$CTWTButton.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+$CTWTButton.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',8)
 
 $TestingPanel                    = New-Object system.Windows.Forms.Panel
 $TestingPanel.height             = 172
@@ -327,10 +329,6 @@ Run-RMPITScript "time.ps1" $ToolsRepo
 
 #endregion
 
-#region Testing
-
-#endregion
-
 #region Tron
  # Install / Update Tronn Script
 function Install-Tron {
@@ -340,7 +338,7 @@ function Install-Tron {
     $BaseDir = "C:\ProgramData\RMPIT"
     $TronDir = "$BaseDir\tron"
     $ZipPath = "$env:TEMP\tron.zip"
-    $TronURL = "https://www.rickieproctor.com/Tronv12_0_5.zip"
+    $TronURL = "https://www.rickieproctor.com/Tronv12_0_8.zip"
 
     try {
         Invoke-WebRequest $TronURL -OutFile $ZipPath -UseBasicParsing
@@ -406,6 +404,10 @@ function Run-Tron {
 
     Start-Process -FilePath $TronBat -WorkingDirectory $TronDir -Verb RunAs
 }
+#endregion
+
+#region Testing
+
 #endregion
 
 
