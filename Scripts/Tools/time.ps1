@@ -40,3 +40,37 @@ Get-Process -Name "explorer" -ErrorAction Stop | Stop-Process
 # Start explorer.exe process again (it will auto-restart if stopped)
 Start-Sleep -Seconds 2
 Start-Process -FilePath "explorer.exe"
+
+
+
+
+
+
+
+
+# **********************************************
+# Powershell Script to Turn On or Off
+# "Auto arrange icons" and "Align icons to grid"
+# **********************************************
+
+# :: 1075839520 = Auto arrange icons = OFF and Align icons to grid = OFF
+# :: 1075839521 = Auto arrange icons = ON and Align icons to grid = OFF
+# :: 1075839524 = Auto arrange icons = OFF and Align icons to grid = ON
+# :: 1075839525 = Auto arrange icons = ON and Align icons to grid = ON
+
+# Set the desired value here
+$value = 1075839525
+$regPath = "HKCU:\SOFTWARE\Microsoft\Windows\Shell\Bags\1\Desktop"
+
+# Ensure the key exists
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Update the Registry
+Set-ItemProperty -Path $regPath -Name "FFlags" -Value $value -Type DWord
+
+# Restart Explorer to apply changes
+Stop-Process -Name explorer -Force
+
+
