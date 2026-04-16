@@ -14,7 +14,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 $RMPITTechToolkit                = New-Object system.Windows.Forms.Form
 $RMPITTechToolkit.ClientSize     = New-Object System.Drawing.Point(975,600)
-$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.3"
+$RMPITTechToolkit.text           = "Windows 11 Debloat & System Helper By RMPIT LLC v.3.4"
 $RMPITTechToolkit.TopMost        = $false
 $RMPITTechToolkit.icon           = "https://raw.githubusercontent.com/rickpro2/RMPIT-TechToolkit/main/favicon.ico"
 
@@ -176,11 +176,18 @@ $RunTron.height                  = 30
 $RunTron.location                = New-Object System.Drawing.Point(19,126)
 $RunTron.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
 
+$Button3                         = New-Object system.Windows.Forms.Button
+$Button3.text                    = "Install Printer"
+$Button3.width                   = 148
+$Button3.height                  = 30
+$Button3.location                = New-Object System.Drawing.Point(123,27)
+$Button3.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
 $RMPITTechToolkit.controls.AddRange(@($logo,$ActivationPanel,$InstallerPanel,$ToolsPanel,$TestingPanel,$Panel3))
 $ActivationPanel.controls.AddRange(@($ActivationLabel,$ActivateWindows1Button,$ActivateWindows2Button,$ActivateOfficeButton))
 $InstallerPanel.controls.AddRange(@($InstallerLabel,$InstallApps1Button,$InstallApps2Button,$tor,$Button1))
 $ToolsPanel.controls.AddRange(@($ToolsLabel,$CTWTButton,$SystemMaintenance,$Button2))
-$TestingPanel.controls.AddRange(@($Label1,$InstallTron,$RunTron))
+$TestingPanel.controls.AddRange(@($Label1,$InstallTron,$RunTron,$Button3))
 $Panel3.controls.AddRange(@($Label2))
 
 # =====================================================
@@ -407,6 +414,11 @@ function Run-Tron {
 #endregion
 
 #region Testing
+# Time
+# Put's Seconds on time
+function time {
+Run-RMPITScript "printers.ps1" $ToolsRepo
+}
 
 #endregion
 
@@ -423,6 +435,7 @@ $Button1.Add_Click({ apps3 })
 $Button2.Add_Click({ time })
 $InstallTron.Add_Click({ Install-Tron })
 $RunTron.Add_Click({ Run-Tron })
+$Button3.Add_Click({ printer })
 
 
 
