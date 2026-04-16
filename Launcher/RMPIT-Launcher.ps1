@@ -416,7 +416,7 @@ function Run-Tron {
 #region Testing
 # Time
 # Put's Seconds on time
-function time {
+function printer {
 Run-RMPITScript "printers.ps1" $ToolsRepo
 }
 
